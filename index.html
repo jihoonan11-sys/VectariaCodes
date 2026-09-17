@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VectariaCodes — Code Share Hub</title>
+
+<style>
+:root{
+  --bg:#050712;
+  --bg2:#090d1c;
+  --panel:rgba(14,18,36,.72);
+  --panel2:rgba(19,24,47,.86);
+  --border:rgba(255,255,255,.09);
+  --text:#f4f7ff;
+  --muted:#8992ad;
+  --cyan:#00eaff;
+  --purple:#8b5cf6;
+  --pink:#ec4899;
+  --green:#22c55e;
+  --danger:#ef4444;
+  --radius:18px;
+  --shadow:0 20px 70px rgba(0,0,0,.45);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(0,234,255,.08),transparent 30%),
+    radial-gradient(circle at 85% 15%,rgba(139,92,246,.12),transparent 30%),
+    radial-gradient(circle at 50% 90%,rgba(236,72,153,.06),transparent 35%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
+  background-size:40px 40px;
+  mask-image:linear-gradient(to bottom,black,transparent 90%);
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+/* NAVIGATION */
+
+.navbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 5%;
+  background:rgba(5,7,18,.76);
+  backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--border);
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-weight:800;
+  font-size:20px;
+  letter-spacing:-.5px;
+}
+
+.logo-mark{
+  width:36px;
+  height:36px;
+  border-radius:11px;
+  display:grid;
+  place-items:center;
+  font-size:17px;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  color:#050712;
+  box-shadow:0 0 25px rgba(0,234,255,.2);
+}
+
+.logo span{
+  background:linear-gradient(90deg,#fff,var(--cyan));
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.nav-link{
+  padding:9px 13px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:14px;
+  transition:.2s;
+}
+
+.nav-link:hover,
+.nav-link.active{
+  color:#fff;
+  background:rgba(255,255,255,.06);
+}
+
+.nav-actions{
+  display:flex;
+  gap:9px;
+  align-items:center;
+}
+
+.icon-btn{
+  width:38px;
+  height:38px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:rgba(255,255,255,.035);
+  color:#fff;
+  display:grid;
+  place-items:center;
+  transition:.2s;
+}
+
+.icon-btn:hover{
+  border-color:rgba(0,234,255,.4);
+  background:rgba(0,234,255,.08);
+}
+
+.primary-btn{
+  border:0;
+  border-radius:11px;
+  padding:10px 16px;
+  color:#031016;
+  font-weight:800;
+  background:linear-gradient(135deg,var(--cyan),#63f4ff);
+  box-shadow:0 0 25px rgba(0,234,255,.15);
+  transition:.2s;
+}
+
+.primary-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 0 30px rgba(0,234,255,.3);
+}
+
+.secondary-btn{
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:10px 16px;
+  color:#fff;
+  background:rgba(255,255,255,.045);
+  transition:.2s;
+}
+
+.secondary-btn:hover{
+  background:rgba(255,255,255,.08);
+}
+
+/* LAYOUT */
+
+.container{
+  width:min(1180px,90%);
+  margin:auto;
+}
+
+.page{
+  display:none;
+  animation:fadeIn .3s ease;
+}
+
+.page.active{
+  display:block;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(7px)}
+  to{opacity:1;transform:none}
+}
+
+/* HERO */
+
+.hero{
+  min-height:590px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  position:relative;
+}
+
+.hero-glow{
+  position:absolute;
+  width:500px;
+  height:500px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(0,234,255,.13),transparent 65%);
+  filter:blur(20px);
+  pointer-events:none;
+}
+
+.hero-content{
+  position:relative;
+  max-width:850px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 12px;
+  border-radius:999px;
+  border:1px solid rgba(0,234,255,.2);
+  background:rgba(0,234,255,.055);
+  color:#8df7ff;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:23px;
+}
+
+.dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 10px var(--cyan);
+}
+
+.hero h1{
+  font-size:clamp(45px,7vw,82px);
+  line-height:.98;
+  letter-spacing:-4px;
+  margin-bottom:25px;
+}
+
+.gradient-text{
+  background:linear-gradient(100deg,#fff 10%,var(--cyan) 48%,var(--purple) 85%);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.7;
+  max-width:680px;
+  margin:auto;
+}
+
+.hero-actions{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-top:32px;
+}
+
+.hero-stats{
+  display:flex;
+  justify-content:center;
+  gap:50px;
+  margin-top:58px;
+}
+
+.stat strong{
+  display:block;
+  font-size:23px;
+}
+
+.stat span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* SECTION */
+
+.section{
+  padding:75px 0;
+}
+
+.section-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:20px;
+  margin-bottom:25px;
+}
+
+.section-title{
+  font-size:27px;
+  letter-spacing:-1px;
+}
+
+.section-subtitle{
+  color:var(--muted);
+  margin-top:6px;
+  font-size:14px;
+}
+
+/* CARDS */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:17px;
+}
+
+.card{
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:var(--panel);
+  backdrop-filter:blur(18px);
+  box-shadow:var(--shadow);
+  transition:.25s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(0,234,255,.25);
+}
+
+.code-card{
+  padding:20px;
+}
+
+.code-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:start;
+  gap:10px;
+}
+
+.code-icon{
+  width:45px;
+  height:45px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  background:linear-gradient(135deg,rgba(0,234,255,.15),rgba(139,92,246,.18));
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.code-menu{
+  color:var(--muted);
+}
+
+.code-card h3{
+  margin-top:18px;
+  font-size:17px;
+}
+
+.code-description{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
+  margin-top:8px;
+  min-height:42px;
+}
+
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:17px;
+}
+
+.tag{
+  padding:5px 8px;
+  border-radius:7px;
+  background:rgba(255,255,255,.05);
+  color:#aeb8d2;
+  font-size:11px;
+}
+
+.code-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:19px;
+  padding-top:15px;
+  border-top:1px solid var(--border);
+}
+
+.author{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+}
+
+.avatar{
+  width:27px;
+  height:27px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:11px;
+  font-weight:800;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+}
+
+.meta{
+  color:var(--muted);
+  font-size:11px;
+}
+
+/* EXPLORE */
+
+.page-header{
+  padding:65px 0 35px;
+}
+
+.page-header h1{
+  font-size:42px;
+  letter-spacing:-2px;
+}
+
+.page-header p{
+  color:var(--muted);
+  margin-top:8px;
+}
+
+.search-bar{
+  display:flex;
+  gap:10px;
+  margin-bottom:25px;
+}
+
+.search-input{
+  flex:1;
+  height:48px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:rgba(255,255,255,.035);
+  color:#fff;
+  padding:0 16px;
+  outline:none;
+}
+
+.search-input:focus{
+  border-color:rgba(0,234,255,.45);
+  box-shadow:0 0 0 3px rgba(0,234,255,.06);
+}
+
+.filters{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:25px;
+}
+
+.filter{
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.035);
+  color:var(--muted);
+  padding:8px 13px;
+  border-radius:9px;
+  font-size:12px;
+}
+
+.filter.active,
+.filter:hover{
+  color:#fff;
+  border-color:rgba(0,234,255,.3);
+  background:rgba(0,234,255,.08);
+}
+
+/* DETAIL */
+
+.detail-wrap{
+  padding:65px 0;
+}
+
+.back{
+  color:var(--muted);
+  font-size:13px;
+  cursor:pointer;
+  margin-bottom:24px;
+  display:inline-block;
+}
+
+.detail-header{
+  display:flex;
+  justify-content:space-between;
+  gap:30px;
+  align-items:start;
+}
+
+.detail-title{
+  font-size:42px;
+  letter-spacing:-2px;
+}
+
+.detail-description{
+  color:var(--muted);
+  margin-top:10px;
+  line-height:1.7;
+}
+
+.detail-actions{
+  display:flex;
+  gap:9px;
+}
+
+.code-window{
+  margin-top:30px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:17px;
+  background:#070a13;
+  box-shadow:var(--shadow);
+}
+
+.code-window-header{
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 15px;
+  border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.025);
+}
+
+.window-dots{
+  display:flex;
+  gap:6px;
+}
+
+.window-dots span{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#394057;
+}
+
+.filename{
+  color:var(--muted);
+  font-size:11px;
+}
+
+pre{
+  padding:24px;
+  overflow:auto;
+  color:#cbd5e1;
+  font:13px/1.7 "SFMono-Regular",Consolas,monospace;
+  min-height:300px;
+}
+
+/* FORMS */
+
+.form-box{
+  max-width:760px;
+  margin:auto;
+  padding:28px;
+}
+
+.form-group{
+  margin-bottom:19px;
+}
+
+.form-group label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+.form-control{
+  width:100%;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.035);
+  color:#fff;
+  border-radius:11px;
+  padding:12px 13px;
+  outline:none;
+}
+
+.form-control:focus{
+  border-color:rgba(0,234,255,.45);
+}
+
+textarea.form-control{
+  min-height:240px;
+  resize:vertical;
+  font-family:monospace;
+  line-height:1.6;
+}
+
+select.form-control option{
+  background:#101426;
+}
+
+/* PROFILE */
+
+.profile-head{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  padding:28px;
+}
+
+.profile-avatar{
+  width:80px;
+  height:80px;
+  border-radius:22px;
+  display:grid;
+  place-items:center;
+  font-size:28px;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  color:#061018;
+}
+
+.profile-head h2{
+  font-size:25px;
+}
+
+.profile-head p{
+  color:var(--muted);
+  margin-top:5px;
+  font-size:13px;
+}
+
+.profile-stats{
+  display:flex;
+  gap:30px;
+  margin-top:12px;
+}
+
+/* ADMIN */
+
+.admin-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.admin-stat{
+  padding:22px;
+}
+
+.admin-stat strong{
+  font-size:28px;
+}
+
+.admin-stat span{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:5px;
+}
+
+.admin-table{
+  margin-top:20px;
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  text-align:left;
+  padding:15px;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
+}
+
+th{
+  color:var(--muted);
+  font-weight:600;
+}
+
+.status{
+  display:inline-block;
+  padding:4px 7px;
+  border-radius:6px;
+  background:rgba(34,197,94,.1);
+  color:#6ee7a0;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:500;
+  padding:13px 17px;
+  border-radius:11px;
+  background:#151a2d;
+  border:1px solid rgba(0,234,255,.25);
+  box-shadow:var(--shadow);
+  color:#fff;
+  font-size:13px;
+  transform:translateY(120px);
+  opacity:0;
+  transition:.3s;
+}
+
+.toast.show{
+  transform:none;
+  opacity:1;
+}
+
+/* FOOTER */
+
+footer{
+  border-top:1px solid var(--border);
+  margin-top:80px;
+  padding:30px 0;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.footer-inner{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+}
+
+/* MOBILE */
+
+.mobile-menu{
+  display:none;
+}
+
+@media(max-width:850px){
+  .nav-links{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .admin-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .detail-header{
+    flex-direction:column;
+  }
+
+  .hero h1{
+    letter-spacing:-2px;
+  }
+}
+
+@media(max-width:600px){
+  .navbar{
+    padding:0 4%;
+  }
+
+  .logo{
+    font-size:17px;
+  }
+
+  .navbar .primary-btn{
+    display:none;
+  }
+
+  .container{
+    width:92%;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .admin-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .hero{
+    min-height:560px;
+  }
+
+  .hero-stats{
+    gap:25px;
+  }
+
+  .hero-actions{
+    flex-direction:column;
+  }
+
+  .hero-actions button{
+    width:100%;
+  }
+
+  .page-header h1,
+  .detail-title{
+    font-size:34px;
+  }
+
+  .search-bar{
+    flex-direction:column;
+  }
+
+  .profile-head{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .footer-inner{
+    flex-direction:column;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav class="navbar">
+  <a class="logo" href="#" onclick="showPage('home');return false;">
+    <div class="logo-mark">&lt;/&gt;</div>
+    <span>VectariaCodes</span>
+  </a>
+
+  <div class="nav-links">
+    <a class="nav-link active" data-page="home" href="#" onclick="showPage('home');return false;">Home</a>
+    <a class="nav-link" data-page="explore" href="#" onclick="showPage('explore');return false;">Explore</a>
+    <a class="nav-link" data-page="upload" href="#" onclick="showPage('upload');return false;">Upload</a>
+    <a class="nav-link" data-page="profile" href="#" onclick="showPage('profile');return false;">Profile</a>
+    <a class="nav-link" data-page="admin" href="#" onclick="showPage('admin');return false;">Admin</a>
+  </div>
+
+  <div class="nav-actions">
+    <button class="icon-btn" onclick="showPage('explore')" title="Search">⌕</button>
+    <button class="primary-btn" onclick="showPage('upload')">+ Upload Code</button>
+    <button class="icon-btn mobile-menu" onclick="toggleMobile()">☰</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<main id="home" class="page active">
+
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="hero-content">
+    <div class="badge">
+      <span class="dot"></span>
+      Community Code Hub for Vectaria.io
+    </div>
+
+    <h1>
+      Discover.<br>
+      <span class="gradient-text">Create. Share.</span>
+    </h1>
+
+    <p>
+      A community-driven hub for discovering and sharing
+      CSS themes, UserScripts and game modifications for Vectaria.io.
+    </p>
+
+    <div class="hero-actions">
+      <button class="primary-btn" onclick="showPage('explore')">
+        Explore Codes →
+      </button>
+
+      <button class="secondary-btn" onclick="showPage('upload')">
+        Upload Your Code
+      </button>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <strong id="statCodes">128</strong>
+        <span>Codes</span>
+      </div>
+
+      <div class="stat">
+        <strong>42</strong>
+        <span>Creators</span>
+      </div>
+
+      <div class="stat">
+        <strong>3</strong>
+        <span>Categories</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+<div class="container">
+
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">Featured Codes</h2>
+      <p class="section-subtitle">Discover what the community is creating.</p>
+    </div>
+
+    <button class="secondary-btn" onclick="showPage('explore')">
+      View all →
+    </button>
+  </div>
+
+  <div class="grid" id="featuredGrid"></div>
+
+</div>
+</section>
+
+<section class="section">
+<div class="container">
+
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">Why VectariaCodes?</h2>
+      <p class="section-subtitle">Everything you need to discover and share code.</p>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <div class="card code-card">
+      <div class="code-icon">⌘</div>
+      <h3>Discover</h3>
+      <p class="code-description">
+        Find themes, scripts and modifications created by the community.
+      </p>
+    </div>
+
+    <div class="card code-card">
+      <div class="code-icon">⚡</div>
+      <h3>Share</h3>
+      <p class="code-description">
+        Publish your projects and let other players discover your work.
+      </p>
+    </div>
+
+    <div class="card code-card">
+      <div class="code-icon">◇</div>
+      <h3>Build</h3>
+      <p class="code-description">
+        Create your own collection of useful Vectaria.io customizations.
+      </p>
+    </div>
+
+  </div>
+
+</div>
+</section>
+
+</main>
+
+<!-- EXPLORE -->
+<main id="explore" class="page">
+
+<div class="container">
+
+  <section class="page-header">
+    <h1>Explore Codes</h1>
+    <p>Discover themes, scripts and modifications from the community.</p>
+  </section>
+
+  <div class="search-bar">
+    <input
+      id="searchInput"
+      class="search-input"
+      placeholder="Search codes, creators or tags..."
+      oninput="renderExplore()"
+    >
+  </div>
+
+  <div class="filters">
+    <button class="filter active" onclick="setFilter('All',this)">All</button>
+    <button class="filter" onclick="setFilter('CSS Themes',this)">CSS Themes</button>
+    <button class="filter" onclick="setFilter('UserScripts',this)">UserScripts</button>
+    <button class="filter" onclick="setFilter('Game Mods',this)">Game Mods</button>
+  </div>
+
+  <div class="grid" id="exploreGrid"></div>
+
+</div>
+
+</main>
+
+<!-- DETAIL -->
+<main id="detail" class="page">
+
+<div class="container detail-wrap">
+
+  <span class="back" onclick="showPage('explore')">← Back to Explore</span>
+
+  <div class="detail-header">
+
+    <div>
+      <div class="badge" id="detailCategory">CSS Themes</div>
+      <h1 class="detail-title" id="detailTitle">NEON//VOID</h1>
+      <p class="detail-description" id="detailDescription"></p>
+
+      <div class="author" style="margin-top:18px;">
+        <div class="avatar" id="detailAvatar">N</div>
+        <span id="detailAuthor">NovaDev</span>
+      </div>
+    </div>
+
+    <div class="detail-actions">
+      <button class="secondary-btn" onclick="likeCurrent()">♡ Like</button>
+      <button class="primary-btn" onclick="copyCurrent()">Copy Code</button>
+    </div>
+
+  </div>
+
+  <div class="tags" id="detailTags"></div>
+
+  <div class="code-window">
+
+    <div class="code-window-header">
+      <div class="window-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <span class="filename" id="detailFilename">theme.css</span>
+
+      <button class="secondary-btn" style="padding:6px 10px;font-size:11px;" onclick="copyCurrent()">
+        Copy
+      </button>
+    </div>
+
+    <pre id="detailCode"></pre>
+
+  </div>
+
+</div>
+
+</main>
+
+<!-- UPLOAD -->
+<main id="upload" class="page">
+
+<div class="container">
+
+<section class="page-header">
+  <h1>Upload Code</h1>
+  <p>Share your Vectaria.io creation with the community.</p>
+</section>
+
+<div class="card form-box">
+
+  <div class="form-group">
+    <label>Project Name</label>
+    <input id="uploadName" class="form-control" placeholder="e.g. My Awesome Theme">
+  </div>
+
+  <div class="form-group">
+    <label>Category</label>
+    <select id="uploadCategory" class="form-control">
+      <option>CSS Themes</option>
+      <option>UserScripts</option>
+      <option>Game Mods</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Description</label>
+    <textarea id="uploadDescription" class="form-control" style="min-height:100px;font-family:inherit;" placeholder="Describe your project..."></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Tags</label>
+    <input id="uploadTags" class="form-control" placeholder="cyberpunk, dark, neon">
+  </div>
+
+  <div class="form-group">
+    <label>Code</label>
+    <textarea id="uploadCode" class="form-control" placeholder="Paste your code here..."></textarea>
+  </div>
+
+  <div style="padding:12px 14px;border:1px solid rgba(0,234,255,.12);background:rgba(0,234,255,.04);border-radius:10px;color:#8da0bd;font-size:12px;line-height:1.6;margin-bottom:20px;">
+    Your code will be displayed as plain text. VectariaCodes does not automatically execute uploaded code.
+  </div>
+
+  <button class="primary-btn" style="width:100%;" onclick="uploadCode()">
+    Publish Code
+  </button>
+
+</div>
+
+</div>
+
+</main>
+
+<!-- PROFILE -->
+<main id="profile" class="page">
+
+<div class="container">
+
+<section class="page-header">
+  <h1>Profile</h1>
+  <p>Your VectariaCodes creator profile.</p>
+</section>
+
+<div class="card profile-head">
+
+  <div class="profile-avatar">N</div>
+
+  <div>
+    <h2>NovaDev</h2>
+    <p>@novadev · Creator</p>
+
+    <div class="profile-stats">
+      <div>
+        <strong>12</strong>
+        <span class="meta">Projects</span>
+      </div>
+
+      <div>
+        <strong>3.8K</strong>
+        <span class="meta">Likes</span>
+      </div>
+
+      <div>
+        <strong>28K</strong>
+        <span class="meta">Views</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<section class="section" style="padding-top:35px;">
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">Your Projects</h2>
+      <p class="section-subtitle">Projects published by this account.</p>
+    </div>
+  </div>
+
+  <div class="grid" id="profileGrid"></div>
+</section>
+
+</div>
+
+</main>
+
+<!-- ADMIN -->
+<main id="admin" class="page">
+
+<div class="container">
+
+<section class="page-header">
+  <h1>Admin Dashboard</h1>
+  <p>Manage the VectariaCodes community.</p>
+</section>
+
+<div class="admin-grid">
+
+  <div class="card admin-stat">
+    <strong>128</strong>
+    <span>Total Codes</span>
+  </div>
+
+  <div class="card admin-stat">
+    <strong>42</strong>
+    <span>Creators</span>
+  </div>
+
+  <div class="card admin-stat">
+    <strong>3,921</strong>
+    <span>Total Likes</span>
+  </div>
+
+  <div class="card admin-stat">
+    <strong>28.4K</strong>
+    <span>Views</span>
+  </div>
+
+</div>
+
+<div class="card admin-table">
+
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>Creator</th>
+<th>Category</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="adminTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</main>
+
+<footer>
+<div class="container footer-inner">
+  <span>© 2026 VectariaCodes</span>
+  <span>Community-built code sharing platform · Not affiliated with Vectaria.io</span>
+</div>
+</footer>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+const projects = [
+
+{
+ id:1,
+ name:"NEON//VOID",
+ category:"CSS Themes",
+ description:"A cyberpunk-inspired Vectaria.io interface with neon cyan, purple and pink accents.",
+ author:"NovaDev",
+ avatar:"N",
+ tags:["cyberpunk","neon","dark"],
+ filename:"neon-void.css",
+ likes:842,
+ views:6410,
+ code:`/* NEON//VOID */
+
+:root {
+  --nv-cyan: #00f6ff;
+  --nv-pink: #ff1493;
+  --nv-purple: #8a2be2;
+  --nv-dark: #03070d;
+}
+
+body {
+  background: var(--nv-dark);
+}
+
+.nav-bar {
+  border-color: var(--nv-cyan);
+  box-shadow: 0 0 18px rgba(0,246,255,.25);
+}
+
+button:hover {
+  border-color: var(--nv-pink);
+}`
+},
+
+{
+ id:2,
+ name:"QuickTools",
+ category:"UserScripts",
+ description:"Small quality-of-life tools designed to make everyday Vectaria.io usage easier.",
+ author:"PixelByte",
+ avatar:"P",
+ tags:["utility","tools","qol"],
+ filename:"quicktools.user.js",
+ likes:529,
+ views:4201,
+ code:`// QuickTools
+// VectariaCodes demo project
+
+(() => {
+  "use strict";
+
+  console.log("QuickTools loaded");
+
+  // Add your own utilities here.
+})();`
+},
+
+{
+ id:3,
+ name:"Minimal HUD",
+ category:"CSS Themes",
+ description:"A clean minimal interface focused on reducing visual clutter.",
+ author:"Orbit",
+ avatar:"O",
+ tags:["minimal","clean","ui"],
+ filename:"minimal-hud.css",
+ likes:391,
+ views:3150,
+ code:`/* Minimal HUD */
+
+.hud {
+  opacity: .88;
+  backdrop-filter: blur(12px);
+}
+
+.panel {
+  border-radius: 14px;
+  background: rgba(8,10,18,.82);
+}
+
+button {
+  transition: transform .2s ease;
+}`
+},
+
+{
+ id:4,
+ name:"ColorShift",
+ category:"CSS Themes",
+ description:"A colorful theme that gives the interface a vivid futuristic appearance.",
+ author:"Luma",
+ avatar:"L",
+ tags:["colorful","gradient","future"],
+ filename:"colorshift.css",
+ likes:286,
+ views:2490,
+ code:`/* ColorShift */
+
+:root {
+  --primary: #7c3aed;
+  --secondary: #06b6d4;
+}
+
+body {
+  background:
+    radial-gradient(circle at 20% 20%, #7c3aed22, transparent 35%),
+    #070914;
+}`
+},
+
+{
+ id:5,
+ name:"Status Panel",
+ category:"UserScripts",
+ description:"Adds a compact information panel for quickly viewing useful status data.",
+ author:"ByteFox",
+ avatar:"B",
+ tags:["panel","status","utility"],
+ filename:"status-panel.user.js",
+ likes:214,
+ views:1980,
+ code:`// Status Panel
+
+(function(){
+  "use strict";
+
+  const panel = document.createElement("div");
+
+  panel.textContent = "Status Panel";
+
+  console.log(panel);
+})();`
+},
+
+{
+ id:6,
+ name:"Sandbox Kit",
+ category:"Game Mods",
+ description:"A community mod concept containing experimental sandbox utilities.",
+ author:"ArcNode",
+ avatar:"A",
+ tags:["sandbox","experimental","mod"],
+ filename:"sandbox-kit.js",
+ likes:178,
+ views:1702,
+ code:`// Sandbox Kit
+// Experimental demo
+
+const SandboxKit = {
+  version: "0.1.0",
+
+  init() {
+    console.log("Sandbox Kit initialized");
+  }
+};
+
+SandboxKit.init();`
+}
+
+];
+
+let currentProject = null;
+let currentFilter = "All";
+
+function showPage(page){
+
+  document.querySelectorAll(".page").forEach(p=>{
+    p.classList.remove("active");
+  });
+
+  const target=document.getElementById(page);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  document.querySelectorAll(".nav-link").forEach(link=>{
+    link.classList.toggle(
+      "active",
+      link.dataset.page===page
+    );
+  });
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  if(page==="explore"){
+    renderExplore();
+  }
+
+  if(page==="profile"){
+    renderProfile();
+  }
+
+  if(page==="admin"){
+    renderAdmin();
+  }
+}
+
+function projectCard(project){
+
+  return `
+  <div class="card code-card" onclick="openProject(${project.id})">
+
+    <div class="code-top">
+
+      <div class="code-icon">
+        ${project.category==="CSS Themes"?"◈":
+          project.category==="UserScripts"?"⌘":"◇"}
+      </div>
+
+      <span class="code-menu">•••</span>
+
+    </div>
+
+    <h3>${escapeHTML(project.name)}</h3>
+
+    <p class="code-description">
+      ${escapeHTML(project.description)}
+    </p>
+
+    <div class="tags">
+      ${project.tags.map(tag=>`
+        <span class="tag">${escapeHTML(tag)}</span>
+      `).join("")}
+    </div>
+
+    <div class="code-footer">
+
+      <div class="author">
+        <div class="avatar">${escapeHTML(project.avatar)}</div>
+        <span>${escapeHTML(project.author)}</span>
+      </div>
+
+      <span class="meta">
+        ♡ ${project.likes.toLocaleString()}
+      </span>
+
+    </div>
+
+  </div>
+  `;
+}
+
+function renderFeatured(){
+
+  const grid=document.getElementById("featuredGrid");
+
+  grid.innerHTML=
+    projects.slice(0,3).map(projectCard).join("");
+}
+
+function renderExplore(){
+
+  const grid=document.getElementById("exploreGrid");
+
+  const query=
+    document.getElementById("searchInput")?.value
+    .toLowerCase()
+    .trim() || "";
+
+  const filtered=projects.filter(project=>{
+
+    const matchesFilter=
+      currentFilter==="All" ||
+      project.category===currentFilter;
+
+    const searchable=
+      (
+        project.name+
+        " "+
+        project.description+
+        " "+
+        project.author+
+        " "+
+        project.tags.join(" ")
+      ).toLowerCase();
+
+    return matchesFilter &&
+           searchable.includes(query);
+  });
+
+  if(!filtered.length){
+
+    grid.innerHTML=`
+      <div class="card code-card" style="grid-column:1/-1;text-align:center;padding:50px;">
+        <div style="font-size:30px;margin-bottom:10px;">⌕</div>
+        <h3>No codes found</h3>
+        <p class="code-description">
+          Try another search or category.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+  grid.innerHTML=filtered.map(projectCard).join("");
+}
+
+function setFilter(filter,button){
+
+  currentFilter=filter;
+
+  document.querySelectorAll(".filter")
+    .forEach(btn=>btn.classList.remove("active"));
+
+  button.classList.add("active");
+
+  renderExplore();
+}
+
+function openProject(id){
+
+  const project=projects.find(p=>p.id===id);
+
+  if(!project)return;
+
+  currentProject=project;
+
+  document.getElementById("detailTitle").textContent=project.name;
+  document.getElementById("detailCategory").textContent=project.category;
+  document.getElementById("detailDescription").textContent=project.description;
+  document.getElementById("detailAuthor").textContent=project.author;
+  document.getElementById("detailAvatar").textContent=project.avatar;
+  document.getElementById("detailFilename").textContent=project.filename;
+  document.getElementById("detailCode").textContent=project.code;
+
+  document.getElementById("detailTags").innerHTML=
+    project.tags.map(tag=>`
+      <span class="tag">${escapeHTML(tag)}</span>
+    `).join("");
+
+  showPage("detail");
+}
+
+function copyCurrent(){
+
+  if(!currentProject)return;
+
+  navigator.clipboard.writeText(currentProject.code)
+    .then(()=>{
+      toast("Code copied to clipboard");
+    })
+    .catch(()=>{
+      toast("Copy failed");
+    });
+}
+
+function likeCurrent(){
+
+  if(!currentProject)return;
+
+  currentProject.likes++;
+
+  toast("Added to your likes ♡");
+}
+
+function uploadCode(){
+
+  const name=
+    document.getElementById("uploadName").value.trim();
+
+  const category=
+    document.getElementById("uploadCategory").value;
+
+  const description=
+    document.getElementById("uploadDescription").value.trim();
+
+  const tags=
+    document.getElementById("uploadTags").value
+      .split(",")
+      .map(x=>x.trim())
+      .filter(Boolean);
+
+  const code=
+    document.getElementById("uploadCode").value;
+
+  if(!name || !description || !code){
+
+    toast("Please complete the required fields");
+
+    return;
+  }
+
+  const project={
+    id:Date.now(),
+    name,
+    category,
+    description,
+    author:"NovaDev",
+    avatar:"N",
+    tags:tags.length?tags:["community"],
+    filename:
+      category==="CSS Themes"
+      ?"custom-theme.css"
+      :category==="UserScripts"
+      ?"custom-script.user.js"
+      :"custom-mod.js",
+    likes:0,
+    views:0,
+    code
+  };
+
+  projects.unshift(project);
+
+  document.getElementById("uploadName").value="";
+  document.getElementById("uploadDescription").value="";
+  document.getElementById("uploadTags").value="";
+  document.getElementById("uploadCode").value="";
+
+  document.getElementById("statCodes").textContent=
+    128+projects.length-6;
+
+  toast("Project published successfully");
+
+  setTimeout(()=>{
+    openProject(project.id);
+  },500);
+}
+
+function renderProfile(){
+
+  document.getElementById("profileGrid").innerHTML=
+    projects.slice(0,3).map(projectCard).join("");
+}
+
+function renderAdmin(){
+
+  document.getElementById("adminTable").innerHTML=
+    projects.map(project=>`
+
+      <tr>
+
+        <td>${escapeHTML(project.name)}</td>
+
+        <td>${escapeHTML(project.author)}</td>
+
+        <td>${escapeHTML(project.category)}</td>
+
+        <td>
+          <span class="status">Published</span>
+        </td>
+
+        <td>
+          <button
+            class="secondary-btn"
+            style="padding:6px 9px;font-size:11px;"
+            onclick="openProject(${project.id})">
+            View
+          </button>
+        </td>
+
+      </tr>
+
+    `).join("");
+}
+
+function toggleMobile(){
+
+  const links=document.querySelector(".nav-links");
+
+  if(links.style.display==="flex"){
+    links.style.display="";
+  }else{
+    links.style.display="flex";
+    links.style.position="absolute";
+    links.style.top="72px";
+    links.style.left="0";
+    links.style.right="0";
+    links.style.padding="12px";
+    links.style.background="rgba(5,7,18,.97)";
+    links.style.flexDirection="column";
+    links.style.borderBottom="1px solid var(--border)";
+  }
+}
+
+function toast(message){
+
+  const el=document.getElementById("toast");
+
+  el.textContent=message;
+  el.classList.add("show");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer=setTimeout(()=>{
+    el.classList.remove("show");
+  },2200);
+}
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+renderFeatured();
+renderExplore();
+renderProfile();
+renderAdmin();
+
+</script>
+
+</body>
+</html>
