@@ -1008,6 +1008,17 @@ footer{
     <button class="filter" onclick="setFilter('Game Mods',this)">Game Mods</button>
   </div>
 
+  <div class="explore-toolbar">
+  <div class="explore-results">
+    <span id="exploreResultsCount">0 codes</span>
+  </div>
+
+  <select id="sortSelect" class="sort-select" onchange="renderExplore()">
+    <option value="default">Recommended</option>
+    <option value="name">Name A–Z</option>
+  </select>
+</div>
+  
   <div class="grid" id="exploreGrid"></div>
 
 </div>
@@ -1500,15 +1511,17 @@ function renderFeatured(){
 }
 
 function renderExplore(){
-
-  const grid=document.getElementById("exploreGrid");
+    const grid=document.getElementById("exploreGrid");
 
   const query=
     document.getElementById("searchInput")?.value
     .toLowerCase()
     .trim() || "";
 
-  const filtered=projects.filter(project=>{
+  const sort=
+    document.getElementById("sortSelect")?.value || "default";
+
+  let filtered=projects.filter(project=>{
 
     const matchesFilter=
       currentFilter==="All" ||
@@ -1526,25 +1539,61 @@ function renderExplore(){
       ).toLowerCase();
 
     return matchesFilter &&
-           searchable.includes(query);
+      searchable.includes(query);
   });
 
+  /* SORT */
+  if(sort==="name"){
+
+    filtered.sort((a,b)=>
+      a.name.localeCompare(b.name)
+    );
+
+  }
+
+  /* RESULT COUNT */
+  const countElement=
+    document.getElementById("exploreResultsCount");
+
+  if(countElement){
+
+    countElement.textContent=
+      filtered.length === 1
+        ? "1 code"
+        : `${filtered.length} codes`;
+
+  }
+
+  /* EMPTY STATE */
   if(!filtered.length){
 
     grid.innerHTML=`
-      <div class="card code-card" style="grid-column:1/-1;text-align:center;padding:50px;">
-        <div style="font-size:30px;margin-bottom:10px;">⌕</div>
+      <div
+        class="card code-card"
+        style="grid-column:1/-1;text-align:center;padding:50px;"
+      >
+
+        <div style="font-size:30px;margin-bottom:10px;">
+          ∅
+        </div>
+
         <h3>No codes found</h3>
+
         <p class="code-description">
           Try another search or category.
         </p>
+
       </div>
     `;
 
     return;
   }
 
-  grid.innerHTML=filtered.map(projectCard).join("");
+  /* RENDER */
+  grid.innerHTML=
+    filtered
+      .map(projectCard)
+      .join("");
 }
 
 function setFilter(filter,button){
