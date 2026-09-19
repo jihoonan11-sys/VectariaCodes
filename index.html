@@ -1,1808 +1,309 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VectariaCodes — Code Share Hub</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="VectariaCodes — discover, create and share community code for Vectaria.io.">
+<title>VectariaCodes — Discover. Create. Share.</title>
 <style>
-:root{
-  --bg:#050712;
-  --bg2:#090d1c;
-  --panel:rgba(14,18,36,.72);
-  --panel2:rgba(19,24,47,.86);
-  --border:rgba(255,255,255,.09);
-  --text:#f4f7ff;
-  --muted:#8992ad;
-  --cyan:#00eaff;
-  --purple:#8b5cf6;
-  --pink:#ec4899;
-  --green:#22c55e;
-  --danger:#ef4444;
-  --radius:18px;
-  --shadow:0 20px 70px rgba(0,0,0,.45);
-}
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:
-    radial-gradient(circle at 15% 10%,rgba(0,234,255,.08),transparent 30%),
-    radial-gradient(circle at 85% 15%,rgba(139,92,246,.12),transparent 30%),
-    radial-gradient(circle at 50% 90%,rgba(236,72,153,.06),transparent 35%),
-    var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
-}
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background-image:
-    linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
-  background-size:40px 40px;
-  mask-image:linear-gradient(to bottom,black,transparent 90%);
-}
-
-button,
-input,
-textarea,
-select{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-a{
-  color:inherit;
-  text-decoration:none;
-}
-
-/* NAVIGATION */
-
-.navbar{
-  position:sticky;
-  top:0;
-  z-index:100;
-  height:72px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 5%;
-  background:rgba(5,7,18,.76);
-  backdrop-filter:blur(22px);
-  border-bottom:1px solid var(--border);
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  font-weight:800;
-  font-size:20px;
-  letter-spacing:-.5px;
-}
-
-.logo-mark{
-  width:36px;
-  height:36px;
-  border-radius:11px;
-  display:grid;
-  place-items:center;
-  font-size:17px;
-  background:linear-gradient(135deg,var(--cyan),var(--purple));
-  color:#050712;
-  box-shadow:0 0 25px rgba(0,234,255,.2);
-}
-
-.logo span{
-  background:linear-gradient(90deg,#fff,var(--cyan));
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-.nav-links{
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
-
-.nav-link{
-  padding:9px 13px;
-  border-radius:10px;
-  color:var(--muted);
-  font-size:14px;
-  transition:.2s;
-}
-
-.nav-link:hover,
-.nav-link.active{
-  color:#fff;
-  background:rgba(255,255,255,.06);
-}
-
-.nav-actions{
-  display:flex;
-  gap:9px;
-  align-items:center;
-}
-
-.icon-btn{
-  width:38px;
-  height:38px;
-  border:1px solid var(--border);
-  border-radius:11px;
-  background:rgba(255,255,255,.035);
-  color:#fff;
-  display:grid;
-  place-items:center;
-  transition:.2s;
-}
-
-.icon-btn:hover{
-  border-color:rgba(0,234,255,.4);
-  background:rgba(0,234,255,.08);
-}
-
-.primary-btn{
-  border:0;
-  border-radius:11px;
-  padding:10px 16px;
-  color:#031016;
-  font-weight:800;
-  background:linear-gradient(135deg,var(--cyan),#63f4ff);
-  box-shadow:0 0 25px rgba(0,234,255,.15);
-  transition:.2s;
-}
-
-.primary-btn:hover{
-  transform:translateY(-1px);
-  box-shadow:0 0 30px rgba(0,234,255,.3);
-}
-
-.secondary-btn{
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:10px 16px;
-  color:#fff;
-  background:rgba(255,255,255,.045);
-  transition:.2s;
-}
-
-.secondary-btn:hover{
-  background:rgba(255,255,255,.08);
-}
-
-/* LAYOUT */
-
-.container{
-  width:min(1180px,90%);
-  margin:auto;
-}
-
-.page{
-  display:none;
-  animation:fadeIn .3s ease;
-}
-
-.page.active{
-  display:block;
-}
-
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(7px)}
-  to{opacity:1;transform:none}
-}
-
-/* HERO */
-
-.hero{
-  min-height:590px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  position:relative;
-}
-
-.hero-glow{
-  position:absolute;
-  width:500px;
-  height:500px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(0,234,255,.13),transparent 65%);
-  filter:blur(20px);
-  pointer-events:none;
-}
-
-.hero-content{
-  position:relative;
-  max-width:850px;
-}
-
-.badge{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  padding:7px 12px;
-  border-radius:999px;
-  border:1px solid rgba(0,234,255,.2);
-  background:rgba(0,234,255,.055);
-  color:#8df7ff;
-  font-size:12px;
-  font-weight:700;
-  margin-bottom:23px;
-}
-
-.dot{
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:var(--cyan);
-  box-shadow:0 0 10px var(--cyan);
-}
-
-.hero h1{
-  font-size:clamp(45px,7vw,82px);
-  line-height:.98;
-  letter-spacing:-4px;
-  margin-bottom:25px;
-}
-
-.gradient-text{
-  background:linear-gradient(100deg,#fff 10%,var(--cyan) 48%,var(--purple) 85%);
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-.hero p{
-  color:var(--muted);
-  font-size:17px;
-  line-height:1.7;
-  max-width:680px;
-  margin:auto;
-}
-
-.hero-actions{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  margin-top:32px;
-}
-
-.hero-stats{
-  display:flex;
-  justify-content:center;
-  gap:50px;
-  margin-top:58px;
-}
-
-.stat strong{
-  display:block;
-  font-size:23px;
-}
-
-.stat span{
-  color:var(--muted);
-  font-size:12px;
-}
-
-/* SECTION */
-
-.section{
-  padding:75px 0;
-}
-
-.section-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  gap:20px;
-  margin-bottom:25px;
-}
-
-.section-title{
-  font-size:27px;
-  letter-spacing:-1px;
-}
-
-.section-subtitle{
-  color:var(--muted);
-  margin-top:6px;
-  font-size:14px;
-}
-
-/* CARDS */
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:17px;
-}
-
-.card{
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  background:var(--panel);
-  backdrop-filter:blur(18px);
-  box-shadow:var(--shadow);
-  transition:.25s;
-}
-
-.card:hover{
-  transform:translateY(-4px);
-  border-color:rgba(0,234,255,.25);
-}
-
-.code-card{
-  padding:20px;
-}
-
-.code-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:start;
-  gap:10px;
-}
-
-.code-icon{
-  width:45px;
-  height:45px;
-  border-radius:13px;
-  display:grid;
-  place-items:center;
-  font-weight:900;
-  background:linear-gradient(135deg,rgba(0,234,255,.15),rgba(139,92,246,.18));
-  border:1px solid rgba(255,255,255,.08);
-}
-
-.code-menu{
-  color:var(--muted);
-}
-
-.code-card h3{
-  margin-top:18px;
-  font-size:17px;
-}
-
-.code-description{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
-  margin-top:8px;
-  min-height:42px;
-}
-
-.tags{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-  margin-top:17px;
-}
-
-.tag{
-  padding:5px 8px;
-  border-radius:7px;
-  background:rgba(255,255,255,.05);
-  color:#aeb8d2;
-  font-size:11px;
-}
-
-.code-footer{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:19px;
-  padding-top:15px;
-  border-top:1px solid var(--border);
-}
-
-.author{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size:12px;
-}
-
-.avatar{
-  width:27px;
-  height:27px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  font-size:11px;
-  font-weight:800;
-  background:linear-gradient(135deg,var(--purple),var(--pink));
-}
-
-.meta{
-  color:var(--muted);
-  font-size:11px;
-}
-
-/* EXPLORE */
-
-.page-header{
-  padding:65px 0 35px;
-}
-
-.page-header h1{
-  font-size:42px;
-  letter-spacing:-2px;
-}
-
-.page-header p{
-  color:var(--muted);
-  margin-top:8px;
-}
-
-.search-bar{
-  display:flex;
-  gap:10px;
-  margin-bottom:25px;
-}
-
-.search-input{
-  flex:1;
-  height:48px;
-  border:1px solid var(--border);
-  border-radius:12px;
-  background:rgba(255,255,255,.035);
-  color:#fff;
-  padding:0 16px;
-  outline:none;
-}
-
-.search-input:focus{
-  border-color:rgba(0,234,255,.45);
-  box-shadow:0 0 0 3px rgba(0,234,255,.06);
-}
-
-.filters{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:25px;
-}
-
-.filter{
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.035);
-  color:var(--muted);
-  padding:8px 13px;
-  border-radius:9px;
-  font-size:12px;
-}
-
-.filter.active,
-.filter:hover{
-  color:#fff;
-  border-color:rgba(0,234,255,.3);
-  background:rgba(0,234,255,.08);
-}
-
-/* DETAIL */
-
-.detail-wrap{
-  padding:65px 0;
-}
-
-.back{
-  color:var(--muted);
-  font-size:13px;
-  cursor:pointer;
-  margin-bottom:24px;
-  display:inline-block;
-}
-
-.detail-header{
-  display:flex;
-  justify-content:space-between;
-  gap:30px;
-  align-items:start;
-}
-
-.detail-title{
-  font-size:42px;
-  letter-spacing:-2px;
-}
-
-.detail-description{
-  color:var(--muted);
-  margin-top:10px;
-  line-height:1.7;
-}
-
-.detail-actions{
-  display:flex;
-  gap:9px;
-}
-
-.code-window{
-  margin-top:30px;
-  overflow:hidden;
-  border:1px solid var(--border);
-  border-radius:17px;
-  background:#070a13;
-  box-shadow:var(--shadow);
-}
-
-.code-window-header{
-  height:48px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 15px;
-  border-bottom:1px solid var(--border);
-  background:rgba(255,255,255,.025);
-}
-
-.window-dots{
-  display:flex;
-  gap:6px;
-}
-
-.window-dots span{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#394057;
-}
-
-.filename{
-  color:var(--muted);
-  font-size:11px;
-}
-
-pre{
-  padding:24px;
-  overflow:auto;
-  color:#cbd5e1;
-  font:13px/1.7 "SFMono-Regular",Consolas,monospace;
-  min-height:300px;
-}
-
-/* FORMS */
-
-.form-box{
-  max-width:760px;
-  margin:auto;
-  padding:28px;
-}
-
-.form-group{
-  margin-bottom:19px;
-}
-
-.form-group label{
-  display:block;
-  font-size:13px;
-  font-weight:700;
-  margin-bottom:8px;
-}
-
-.form-control{
-  width:100%;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.035);
-  color:#fff;
-  border-radius:11px;
-  padding:12px 13px;
-  outline:none;
-}
-
-.form-control:focus{
-  border-color:rgba(0,234,255,.45);
-}
-
-textarea.form-control{
-  min-height:240px;
-  resize:vertical;
-  font-family:monospace;
-  line-height:1.6;
-}
-
-select.form-control option{
-  background:#101426;
-}
-
-/* PROFILE */
-
-.profile-head{
-  display:flex;
-  align-items:center;
-  gap:20px;
-  padding:28px;
-}
-
-.profile-avatar{
-  width:80px;
-  height:80px;
-  border-radius:22px;
-  display:grid;
-  place-items:center;
-  font-size:28px;
-  font-weight:900;
-  background:linear-gradient(135deg,var(--cyan),var(--purple));
-  color:#061018;
-}
-
-.profile-head h2{
-  font-size:25px;
-}
-
-.profile-head p{
-  color:var(--muted);
-  margin-top:5px;
-  font-size:13px;
-}
-
-.profile-stats{
-  display:flex;
-  gap:30px;
-  margin-top:12px;
-}
-
-/* ADMIN */
-
-.admin-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-}
-
-.admin-stat{
-  padding:22px;
-}
-
-.admin-stat strong{
-  font-size:28px;
-}
-
-.admin-stat span{
-  display:block;
-  color:var(--muted);
-  font-size:12px;
-  margin-top:5px;
-}
-
-.admin-table{
-  margin-top:20px;
-  overflow:auto;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-
-th,td{
-  text-align:left;
-  padding:15px;
-  border-bottom:1px solid var(--border);
-  font-size:12px;
-}
-
-th{
-  color:var(--muted);
-  font-weight:600;
-}
-
-.status{
-  display:inline-block;
-  padding:4px 7px;
-  border-radius:6px;
-  background:rgba(34,197,94,.1);
-  color:#6ee7a0;
-}
-
-/* TOAST */
-
-.toast{
-  position:fixed;
-  right:22px;
-  bottom:22px;
-  z-index:500;
-  padding:13px 17px;
-  border-radius:11px;
-  background:#151a2d;
-  border:1px solid rgba(0,234,255,.25);
-  box-shadow:var(--shadow);
-  color:#fff;
-  font-size:13px;
-  transform:translateY(120px);
-  opacity:0;
-  transition:.3s;
-}
-
-.toast.show{
-  transform:none;
-  opacity:1;
-}
-
-/* FOOTER */
-
-footer{
-  border-top:1px solid var(--border);
-  margin-top:80px;
-  padding:30px 0;
-  color:var(--muted);
-  font-size:12px;
-}
-
-.footer-inner{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-}
-
-/* MOBILE */
-
-.mobile-menu{
-  display:none;
-}
-
-@media(max-width:850px){
-  .nav-links{
-    display:none;
-  }
-
-  .mobile-menu{
-    display:grid;
-  }
-
-  .grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .admin-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .detail-header{
-    flex-direction:column;
-  }
-
-  .hero h1{
-    letter-spacing:-2px;
-  }
-}
-
-@media(max-width:600px){
-  .navbar{
-    padding:0 4%;
-  }
-
-  .logo{
-    font-size:17px;
-  }
-
-  .navbar .primary-btn{
-    display:none;
-  }
-
-  .container{
-    width:92%;
-  }
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .admin-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .hero{
-    min-height:560px;
-  }
-
-  .hero-stats{
-    gap:25px;
-  }
-
-  .hero-actions{
-    flex-direction:column;
-  }
-
-  .hero-actions button{
-    width:100%;
-  }
-
-  .page-header h1,
-  .detail-title{
-    font-size:34px;
-  }
-
-  .search-bar{
-    flex-direction:column;
-  }
-
-  .profile-head{
-    flex-direction:column;
-    text-align:center;
-  }
-
-  .footer-inner{
-    flex-direction:column;
-  }
-}
+:root{--bg:#060912;--panel:#0d1525;--panel2:#111b30;--line:#1c2a43;--text:#f4f7ff;--muted:#94a2bb;--cyan:#55e8ff;--purple:#9b6cff;--green:#5be5a8;--red:#ff7088;--max:1220px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(900px 500px at 10% 0,rgba(70,225,255,.10),transparent 60%),radial-gradient(900px 500px at 95% 5%,rgba(150,90,255,.12),transparent 60%),var(--bg);color:var(--text);font:14px Inter,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}.wrap{width:min(var(--max),calc(100% - 32px));margin:auto}
+header{position:sticky;top:0;z-index:20;background:rgba(6,9,18,.82);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.nav{height:70px;display:flex;align-items:center;gap:22px}.brand{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:850;letter-spacing:-.03em}.logo{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#06101b;font-weight:950}.links{display:flex;gap:4px;flex:1}.link{padding:9px 12px;border-radius:10px;color:var(--muted);font-size:13px}.link:hover,.link.active{color:#fff;background:rgba(255,255,255,.05)}.navright{display:flex;gap:8px}.icon,.avatar{width:36px;height:36px;border:1px solid var(--line);border-radius:10px;background:#0b1220;color:var(--muted);display:grid;place-items:center}.avatar{background:linear-gradient(135deg,#4d5de8,#44d9ef);color:#07101b;font-weight:900}.mobile{display:none}
+.page{display:none}.page.active{display:block}.hero{padding:78px 0 55px}.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:42px;align-items:center}.eyebrow{display:inline-flex;gap:7px;align-items:center;border:1px solid #204050;background:#0b202a;color:#a8f4ff;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.dot{width:6px;height:6px;border-radius:50%;background:var(--green)}h1{font-size:clamp(48px,7vw,80px);line-height:.94;letter-spacing:-.065em;margin:20px 0}.grad{background:linear-gradient(110deg,#fff,#9eefff,#b394ff);background-clip:text;color:transparent}.hero p{max-width:650px;color:var(--muted);font-size:17px;line-height:1.7}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}.btn{border:1px solid var(--line);background:#0c1423;color:#fff;border-radius:11px;padding:11px 15px;font-weight:750}.btn:hover{border-color:#34506e;background:#111c30}.primary{border:0;background:linear-gradient(135deg,#4fe5ff,#986bff);color:#07101a}.card{border:1px solid var(--line);background:linear-gradient(150deg,rgba(17,27,48,.88),rgba(9,14,25,.9));border-radius:18px}.hero-preview{padding:18px;box-shadow:0 25px 70px #0006}.window{overflow:hidden;border:1px solid var(--line);border-radius:13px;background:#070b13}.bar{height:38px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 12px}.ball{width:7px;height:7px;border-radius:50%;background:#56637a}.filename{font:11px ui-monospace;color:#68758c;margin-left:5px}.code{padding:18px;font:12px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;color:#aebbd0;min-height:250px}.c{color:#55e8ff}.p{color:#b18cff}.v{color:#65e6ad}.m{color:#ff83c4}.mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.mini-stats div{border:1px solid var(--line);border-radius:11px;padding:12px}.mini-stats b{display:block;font-size:18px}.mini-stats span{color:#6d7b93;font-size:10px}
+section.section{padding:30px 0 75px}.head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:18px}.head h2{margin:0 0 5px;font-size:26px;letter-spacing:-.04em}.head p{margin:0;color:var(--muted);font-size:13px}.textlink{color:#9defff;font-size:12px;font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.code-card{padding:18px;min-height:286px;display:flex;flex-direction:column;transition:.18s}.code-card:hover{transform:translateY(-3px);border-color:#2c5870}.cardtop{display:flex;justify-content:space-between}.badge{font-size:9px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border-radius:6px;color:#a6f3ff;background:#0b222b;border:1px solid #1d4a57}.badge.script{color:#c7b4ff;background:#1a1230;border-color:#3a2b64}.badge.mod{color:#9cf0c6;background:#0c251b;border-color:#1d5039}.cardicon{width:43px;height:43px;border-radius:12px;display:grid;place-items:center;margin:18px 0 13px;background:linear-gradient(135deg,#12313b,#261c45);color:#d9fbff;font-size:19px}.code-card h3{font-size:18px;margin:0 0 7px;letter-spacing:-.025em}.desc{color:var(--muted);font-size:12px;line-height:1.6;margin:0;min-height:39px}.tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:13px}.tag{font-size:9px;color:#8997ae;background:#ffffff08;padding:5px 6px;border-radius:5px}.cardbottom{margin-top:auto;padding-top:15px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.author{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:750}.authorav{width:27px;height:27px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,#735cff,#49dcf2);font-size:9px;color:#07101b}.metrics{display:flex;gap:9px;color:#748198;font-size:10px}
+.shell{padding:52px 0 80px}.pagehead{margin-bottom:24px}.pagehead h1{font-size:40px;margin:0 0 7px}.pagehead p{margin:0;color:var(--muted);line-height:1.6}.searchbox{position:relative}.searchbox span{position:absolute;left:15px;top:15px;color:#66748b}.search{width:100%;height:52px;padding:0 15px 0 43px;background:#0b1220;border:1px solid var(--line);border-radius:12px;color:#fff;outline:none}.search:focus{border-color:#356277}.clear-search{position:absolute;right:10px;top:9px;width:34px;height:34px;border:0;border-radius:9px;background:transparent;color:#718097;font-size:22px;line-height:1;cursor:pointer;display:none}.clear-search:hover{background:rgba(255,255,255,.06);color:#fff}.search:not(:placeholder-shown)~.clear-search{display:grid;place-items:center}.filters{display:flex;gap:7px;flex-wrap:wrap;margin:13px 0}.filter{border:1px solid var(--line);background:#0b1220;color:#8290a7;padding:8px 11px;border-radius:9px;font-size:11px;font-weight:750}.filter.active{color:#c7f8ff;background:#0b222b;border-color:#2d697b}.toolbar{display:flex;justify-content:space-between;align-items:center;margin:15px 0;gap:10px}.count{font-size:11px;color:#6e7b91}.sort{background:#0b1220;color:#c5cedd;border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:11px}
+.detail{display:grid;grid-template-columns:1.1fr .9fr;gap:15px}.detailmain,.detailside{padding:23px}.back{color:#7e8ba1;font-size:11px;cursor:pointer}.detail h1{font-size:42px;margin:17px 0 8px}.detaildesc{color:var(--muted);line-height:1.7}.panel{margin-top:20px;border:1px solid var(--line);border-radius:13px;overflow:hidden;background:#070b12}.panelhead{height:42px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:0 11px;color:#6e7a90;font-size:10px}.pre{margin:0;padding:18px;max-height:570px;overflow:auto;white-space:pre-wrap;color:#c7d1e2;font:12px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace}.sideblock{padding:15px 0;border-bottom:1px solid var(--line)}.sideblock:first-child{padding-top:0}.sideblock:last-child{border:0}.label{color:#66738a;font-size:9px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;margin-bottom:8px}.sideactions{display:flex;gap:7px;flex-wrap:wrap}.liked{color:#ff93bc!important;border-color:#59304a!important;background:#251322!important}
+.form{max-width:850px;padding:23px}.notice{padding:12px 14px;border:1px solid #194452;background:#0b2029;color:#9bd9e6;border-radius:10px;font-size:11px;line-height:1.55;margin-bottom:15px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:11px;font-weight:800;color:#c6d0e1}.field input,.field select,.field textarea{width:100%;background:#0a111e;border:1px solid var(--line);color:#fff;border-radius:10px;outline:none}.field input,.field select{height:43px;padding:0 11px}.field textarea{min-height:190px;padding:11px;resize:vertical}.help{color:#68758b;font-size:10px}.formactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.profile{display:flex;gap:16px;align-items:center;padding:21px;margin-bottom:18px}.bigavatar{width:68px;height:68px;border-radius:19px;display:grid;place-items:center;font-size:22px;font-weight:900;background:linear-gradient(135deg,#6558ee,#48dff3);color:#07101a}.profilename{font-size:21px;font-weight:850}.handle{color:#718097;font-size:11px;margin-top:3px}.profilebio{color:#9aa8bd;font-size:12px;line-height:1.55;margin-top:7px;max-width:520px}.profilestats{margin-left:auto;display:flex;gap:22px}.profilestats b{display:block;text-align:center}.profilestats span{font-size:9px;color:#66748b}.profilegrid{display:grid;grid-template-columns:1.1fr .9fr;gap:15px}.profilepanel{padding:20px}.profilepanel h3{margin:0 0 14px;font-size:16px}.profile-actions{display:flex;gap:8px;flex-wrap:wrap}.profile-tabs{display:flex;gap:7px;margin-bottom:14px}.profile-tab{border:1px solid var(--line);background:#0b1220;color:#8290a7;padding:8px 11px;border-radius:9px;font-size:11px;font-weight:750}.profile-tab.active{color:#c7f8ff;background:#0b222b;border-color:#2d697b}.profile-edit{display:none}.profile-edit.show{display:block}.profile-form{display:grid;gap:12px}.profile-form input,.profile-form textarea{width:100%;background:#0a111e;border:1px solid var(--line);color:#fff;border-radius:10px;padding:10px 11px;outline:none}.profile-form textarea{min-height:90px;resize:vertical}.profile-form input:focus,.profile-form textarea:focus{border-color:#7d8cff;box-shadow:0 0 0 3px rgba(125,140,255,.08)}.profile-note{color:#68758b;font-size:10px;line-height:1.5}.project-actions{display:flex;gap:6px;margin-top:10px}.project-actions button{border:1px solid var(--line);background:#0b1220;color:#9aa8bd;border-radius:7px;padding:6px 8px;font-size:10px}.project-actions .danger{color:#ff9bad;border-color:#4a2732}.adminstats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:15px}.adminstat{padding:17px}.adminstat b{font-size:24px}.adminstat span{display:block;color:#69768d;font-size:10px;margin-top:4px}.admin-toolbar{display:flex;gap:8px;align-items:center;margin-bottom:12px}.admin-search{flex:1;background:#0b1220;color:#fff;border:1px solid var(--line);border-radius:9px;padding:9px 11px;outline:none}.admin-search:focus{border-color:#356277}.admin-filter{background:#0b1220;color:#c5cedd;border:1px solid var(--line);border-radius:9px;padding:9px 10px;font-size:11px}.adminnotice{padding:12px 14px;border:1px solid #2c254d;background:#131027;color:#bcb3e8;border-radius:10px;font-size:11px;line-height:1.5;margin-bottom:15px}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:760px}.table th,.table td{padding:12px 13px;border-bottom:1px solid var(--line);text-align:left;font-size:11px}.table th{font-size:9px;color:#68758b;text-transform:uppercase}.table td{color:#c6d0df}.table button{background:#0b1220;border:1px solid var(--line);color:#8d9bb1;border-radius:7px;padding:5px 7px}.table .danger{color:#ff9bad;border-color:#4a2732}.activity{margin-top:15px;padding:18px}.activity h3{margin:0 0 12px;font-size:15px}.activity-list{display:grid;gap:8px}.activity-item{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:11px}.activity-item:last-child{border-bottom:0}.activity-item span{color:#718097}.adminempty{padding:35px;text-align:center;color:#718097}
+.empty{grid-column:1/-1;padding:50px;text-align:center}.empty b{font-size:27px}.empty p{color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:25px 0;color:#647189;font-size:10px}footer .wrap{display:flex;justify-content:space-between;gap:15px}
+.cloud-status{display:inline-flex;align-items:center;gap:7px;font-size:10px;color:#8190a7}.cloud-dot{width:7px;height:7px;border-radius:50%;background:#6f7d92}.cloud-dot.online{background:#5be5a8;box-shadow:0 0 10px rgba(91,229,168,.55)}.cloud-dot.error{background:#ff7088;box-shadow:0 0 10px rgba(255,112,136,.45)}
+.toast{position:fixed;right:18px;bottom:18px;background:#0c1728;border:1px solid #28506a;color:#dffaff;padding:12px 14px;border-radius:10px;font-size:11px;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none;z-index:50}.toast.show{opacity:1;transform:none}
+@media(max-width:900px){.hero-grid,.detail,.profilegrid{grid-template-columns:1fr}.hero-preview{display:none}.grid{grid-template-columns:repeat(2,1fr)}.adminstats{grid-template-columns:repeat(3,1fr)}.profilestats{margin-left:auto}}
+.profile-menu{position:relative}.profile-trigger{width:38px;height:38px;border:1px solid var(--line);border-radius:11px;background:linear-gradient(135deg,#4d5de8,#44d9ef);color:#07101b;font-weight:900;cursor:pointer}.profile-dropdown{position:absolute;right:0;top:48px;width:250px;padding:8px;border:1px solid #2b3145;border-radius:16px;background:linear-gradient(160deg,#191824,#11111b);box-shadow:0 24px 60px #0009;display:none;overflow:hidden}.profile-dropdown.show{display:block}.profile-summary{padding:10px 12px 12px}.profile-summary strong{display:block;color:#f1efff;font-size:15px}.profile-summary span{display:block;margin-top:4px;color:#9b8ee8;font-size:10px}.profile-summary.guest strong{color:#d6d9e5}.profile-summary.guest span{color:#7f879a}.profile-divider{height:1px;background:#2b2a3a;margin:0 -8px 5px}.profile-menu-item{width:100%;display:flex;align-items:center;gap:10px;padding:11px 12px;border:0;border-radius:9px;background:transparent;color:#b7b3c8;text-align:left;font-size:12px;font-weight:750;cursor:pointer}.profile-menu-item:hover{background:#242231;color:#fff}.profile-menu-item .menu-icon{width:18px;text-align:center;color:#8e7be8}.profile-menu-item.danger{color:#c6aeb6}.profile-menu-item.danger .menu-icon{color:#c38b9c}.profile-guest-note{padding:8px 12px 4px;color:#70798d;font-size:9px;line-height:1.5}.guest-lock{color:#a3adbf;font-size:11px;margin-left:6px}.profile-locked{opacity:.55;pointer-events:none}.profile-login-card{margin-top:15px;padding:14px;border:1px solid #2a3550;background:#0b1220;border-radius:12px}.profile-login-card p{margin:0 0 10px;color:#7d899f;font-size:11px;line-height:1.5}.profile-login-card button{width:100%}..auth-nav{height:36px;border:1px solid #2a3c59;border-radius:10px;background:#0b1220;color:#d7e5f5;padding:0 12px;font-size:11px;font-weight:800}.auth-nav:hover{border-color:#426b8b;background:#101b2d}.auth-overlay{position:fixed;inset:0;z-index:100;background:rgba(2,5,12,.78);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:18px}.auth-overlay.show{display:flex}.auth-card{width:min(460px,100%);padding:24px;border:1px solid #263753;border-radius:20px;background:linear-gradient(150deg,#101a2c,#080e19);box-shadow:0 30px 90px #000b;position:relative}.auth-close{position:absolute;right:14px;top:14px;width:34px;height:34px;border:1px solid var(--line);border-radius:9px;background:#0b1220;color:#93a2b9;font-size:20px}.auth-title{margin:0 0 6px;font-size:28px;letter-spacing:-.04em}.auth-subtitle{margin:0 0 18px;color:var(--muted);font-size:12px;line-height:1.6}.auth-providers{display:grid;grid-template-columns:1fr 1fr;gap:8px}.auth-provider{height:44px;border:1px solid var(--line);border-radius:10px;background:#0b1220;color:#fff;font-weight:800}.auth-provider:hover{border-color:#45607f;background:#101b2d}.auth-divider{display:flex;align-items:center;gap:10px;margin:18px 0;color:#627089;font-size:10px}.auth-divider:before,.auth-divider:after{content:"";height:1px;background:var(--line);flex:1}.auth-form{display:grid;gap:10px}.auth-field{display:grid;gap:6px}.auth-field label{font-size:10px;color:#b9c5d7;font-weight:800}.auth-field input{height:44px;border:1px solid var(--line);border-radius:10px;background:#080f1b;color:#fff;padding:0 12px;outline:none}.auth-field input:focus{border-color:#3c7188}.auth-submit{height:44px;margin-top:3px}.auth-switch{margin-top:14px;text-align:center;color:#718097;font-size:11px}.auth-switch button{border:0;background:none;color:#a9efff;font-weight:800}.auth-message{display:none;margin-top:12px;padding:10px 12px;border-radius:9px;background:#0b2029;border:1px solid #194452;color:#9edce8;font-size:10px;line-height:1.5}.auth-message.show{display:block}.auth-account{display:grid;gap:12px}.auth-account-box{padding:13px;border:1px solid var(--line);border-radius:12px;background:#0b1220}.auth-account-name{font-weight:850}.auth-account-email{margin-top:4px;color:#718097;font-size:10px}.auth-account-actions{display:flex;gap:8px;flex-wrap:wrap}.auth-note{font-size:9px;color:#68758b;line-height:1.55}.auth-nav.logged{color:#b8f7ff;border-color:#275766;background:#0b2029}@media(max-width:650px){.navright .icon{display:none}.wrap{width:calc(100% - 22px)}.nav{height:62px}.links{display:none;position:absolute;top:62px;left:10px;right:10px;background:#0a101c;border:1px solid var(--line);border-radius:12px;padding:6px;flex-direction:column}.links.open{display:flex}.mobile{display:grid}.navright .icon{display:none}.hero{padding:55px 0 30px}h1{font-size:49px}.hero p{font-size:15px}.grid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.profilestats{width:100%;margin-left:0;justify-content:space-around}.profile{flex-wrap:wrap}.adminstats{grid-template-columns:repeat(2,1fr)}.admin-toolbar{flex-direction:column;align-items:stretch}.admin-filter{width:100%}.toolbar{flex-direction:column;align-items:stretch}.sort{width:100%}.detail h1{font-size:34px}footer .wrap{flex-direction:column}}
+
+.req{color:#a9b7ff}.fieldmeta{display:flex;justify-content:space-between;gap:12px;margin-top:7px;color:#66738a;font-size:11px}.formerror{display:none;margin-top:16px;padding:12px 14px;border:1px solid rgba(255,92,122,.35);background:rgba(255,92,122,.08);border-radius:12px;color:#ffb2c0;font-size:13px}.formerror.show{display:block}.field input.invalid,.field textarea.invalid,.field select.invalid{border-color:#ff5c7a!important;box-shadow:0 0 0 3px rgba(255,92,122,.08)}.uploadpreview{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:18px;padding:14px 16px;border:1px solid rgba(140,160,255,.12);border-radius:14px;background:rgba(8,13,25,.55)}.previewlabel{display:block;color:#66738a;font-size:10px;letter-spacing:.12em;margin-bottom:4px}.uploadpreview strong{font-size:13px;color:#e9efff}.field textarea{min-height:300px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;line-height:1.55}.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:#7d8cff;box-shadow:0 0 0 3px rgba(125,140,255,.08)}
+@media(max-width:700px){.uploadpreview{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
-
 <body>
-
-<!-- NAVIGATION -->
-<nav class="navbar">
-  <a class="logo" href="#" onclick="showPage('home');return false;">
-    <div class="logo-mark">&lt;/&gt;</div>
-    <span>VectariaCodes</span>
-  </a>
-
-  <div class="nav-links">
-    <a class="nav-link active" data-page="home" href="#" onclick="showPage('home');return false;">Home</a>
-    <a class="nav-link" data-page="explore" href="#" onclick="showPage('explore');return false;">Explore</a>
-    <a class="nav-link" data-page="upload" href="#" onclick="showPage('upload');return false;">Upload</a>
-    <a class="nav-link" data-page="profile" href="#" onclick="showPage('profile');return false;">Profile</a>
-    <a class="nav-link" data-page="admin" href="#" onclick="showPage('admin');return false;">Admin</a>
-  </div>
-
-  <div class="nav-actions">
-    <button class="icon-btn" onclick="showPage('explore')" title="Search">⌕</button>
-    <button class="primary-btn" onclick="showPage('upload')">+ Upload Code</button>
-    <button class="icon-btn mobile-menu" onclick="toggleMobile()">☰</button>
-  </div>
+<header><div class="wrap nav">
+<a class="brand" href="#" onclick="showPage('home');return false"><span class="logo">V</span>VectariaCodes</a>
+<button class="icon mobile" onclick="document.getElementById('links').classList.toggle('open')">☰</button>
+<nav class="links" id="links">
+<a class="link active" data-page="home" href="#" onclick="showPage('home');return false">Home</a>
+<a class="link" data-page="explore" href="#" onclick="showPage('explore');return false">Explore</a>
+<a class="link" data-page="upload" href="#" onclick="showPage('upload');return false">Upload</a>
+<a class="link" data-page="admin" href="#" onclick="showPage('admin');return false">Admin</a>
 </nav>
+<div class="navright"><button class="icon" onclick="showPage('explore');setTimeout(()=>searchInput.focus(),100)">⌕</button><div class="profile-menu"><button class="profile-trigger" id="navAvatar" onclick="toggleProfileMenu(event)" aria-label="Open profile menu" aria-expanded="false">G</button><div class="profile-dropdown" id="profileDropdown"><div class="profile-summary guest" id="profileMenuSummary"><strong id="profileMenuName">Guest</strong><span id="profileMenuRole">Guest</span></div><div class="profile-divider"></div><button class="profile-menu-item" onclick="profileMenuAction('profile')"><span class="menu-icon">♟</span><span>Profile</span></button><button class="profile-menu-item" id="profileMenuAuth" onclick="profileMenuAction('auth')"><span class="menu-icon">↪</span><span>Sign in</span></button><button class="profile-menu-item danger" id="profileMenuLogout" style="display:none" onclick="profileMenuAction('logout')"><span class="menu-icon">↪</span><span>Sign out</span></button><div class="profile-guest-note" id="profileGuestNote">Sign in to edit your profile, publish code and use community actions.</div></div></div></div>
+</div></header>
 
-<!-- HOME -->
 <main id="home" class="page active">
-
-<section class="hero">
-  <div class="hero-glow"></div>
-
-  <div class="hero-content">
-    <div class="badge">
-      <span class="dot"></span>
-      Community Code Hub for Vectaria.io
-    </div>
-
-    <h1>
-      Discover.<br>
-      <span class="gradient-text">Create. Share.</span>
-    </h1>
-
-    <p>
-      A community-driven hub for discovering and sharing
-      CSS themes, UserScripts and game modifications for Vectaria.io.
-    </p>
-
-    <div class="hero-actions">
-      <button class="primary-btn" onclick="showPage('explore')">
-        Explore Codes →
-      </button>
-
-      <button class="secondary-btn" onclick="showPage('upload')">
-        Upload Your Code
-      </button>
-    </div>
-
-    <div class="hero-stats">
-      <div class="stat">
-        <strong id="statCodes">128</strong>
-        <span>Codes</span>
-      </div>
-
-      <div class="stat">
-        <strong>42</strong>
-        <span>Creators</span>
-      </div>
-
-      <div class="stat">
-        <strong>3</strong>
-        <span>Categories</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-<div class="container">
-
-  <div class="section-header">
-    <div>
-      <h2 class="section-title">Featured Codes</h2>
-      <p class="section-subtitle">Discover what the community is creating.</p>
-    </div>
-
-    <button class="secondary-btn" onclick="showPage('explore')">
-      View all →
-    </button>
-  </div>
-
-  <div class="grid" id="featuredGrid"></div>
-
+<section class="hero"><div class="wrap hero-grid"><div>
+<span class="eyebrow"><i class="dot"></i> Community code hub</span>
+<h1><span class="grad">Discover.</span><br>Create.<br><span class="grad">Share.</span></h1>
+<p>Find, understand and share community-made themes, UserScripts and game modifications for Vectaria.io.</p>
+<div class="actions"><button class="btn primary" onclick="showPage('explore')">Explore Codes →</button><button class="btn" onclick="showPage('upload')">Upload Code ＋</button></div>
 </div>
-</section>
-
-<section class="section">
-<div class="container">
-
-  <div class="section-header">
-    <div>
-      <h2 class="section-title">Why VectariaCodes?</h2>
-      <p class="section-subtitle">Everything you need to discover and share code.</p>
-    </div>
-  </div>
-
-  <div class="grid">
-
-    <div class="card code-card">
-      <div class="code-icon">⌘</div>
-      <h3>Discover</h3>
-      <p class="code-description">
-        Find themes, scripts and modifications created by the community.
-      </p>
-    </div>
-
-    <div class="card code-card">
-      <div class="code-icon">⚡</div>
-      <h3>Share</h3>
-      <p class="code-description">
-        Publish your projects and let other players discover your work.
-      </p>
-    </div>
-
-    <div class="card code-card">
-      <div class="code-icon">◇</div>
-      <h3>Build</h3>
-      <p class="code-description">
-        Create your own collection of useful Vectaria.io customizations.
-      </p>
-    </div>
-
-  </div>
-
-</div>
-</section>
-
+<div class="card hero-preview"><div class="window"><div class="bar"><i class="ball"></i><i class="ball"></i><i class="ball"></i><span class="filename">neon-void.css</span></div><pre class="code"><span class="c">:root</span>{
+  <span class="p">--cyan</span>:<span class="v">#54e8ff</span>;
+  <span class="p">--purple</span>:<span class="v">#9b6cff</span>;
+}
+<span class="c">.nav-bar</span>{
+  <span class="p">border</span>:<span class="v">1px solid var(--cyan)</span>;
+  <span class="p">box-shadow</span>:<span class="v">0 0 24px #54e8ff44</span>;
+}</pre></div><div class="mini-stats"><div><b>128</b><span>Codes</span></div><div><b>42</b><span>Creators</span></div><div><b>3</b><span>Categories</span></div></div></div></div></section>
+<section class="section"><div class="wrap"><div class="head"><div><h2>Trending Codes</h2><p>Projects the community is exploring.</p></div><a class="textlink" href="#" onclick="showPage('explore');return false">View all →</a></div><div class="grid" id="homeGrid"></div></div></section>
 </main>
 
-<!-- EXPLORE -->
-<main id="explore" class="page">
-
-<div class="container">
-
-  <section class="page-header">
-    <h1>Explore Codes</h1>
-    <p>Discover themes, scripts and modifications from the community.</p>
-  </section>
-
-  <div class="search-bar">
-    <input
-      id="searchInput"
-      class="search-input"
-      placeholder="Search codes, creators or tags..."
-      oninput="renderExplore()"
-    >
-  </div>
-
-  <div class="filters">
-    <button class="filter active" onclick="setFilter('All',this)">All</button>
-    <button class="filter" onclick="setFilter('CSS Themes',this)">CSS Themes</button>
-    <button class="filter" onclick="setFilter('UserScripts',this)">UserScripts</button>
-    <button class="filter" onclick="setFilter('Game Mods',this)">Game Mods</button>
-  </div>
-
-  <div class="explore-toolbar">
-  <div class="explore-results">
-    <span id="exploreResultsCount">0 codes</span>
-  </div>
-
-  <select id="sortSelect" class="sort-select" onchange="renderExplore()">
-    <option value="default">Recommended</option>
-    <option value="name">Name A–Z</option>
-  </select>
-</div>
-  
-  <div class="grid" id="exploreGrid"></div>
-
-</div>
-
-</main>
-
-<!-- DETAIL -->
-<main id="detail" class="page">
-
-<div class="container detail-wrap">
-
-  <span class="back" onclick="showPage('explore')">← Back to Explore</span>
-
-  <div class="detail-header">
-
-    <div>
-      <div class="badge" id="detailCategory">CSS Themes</div>
-      <h1 class="detail-title" id="detailTitle">NEON//VOID</h1>
-      <p class="detail-description" id="detailDescription"></p>
-
-      <div class="author" style="margin-top:18px;">
-        <div class="avatar" id="detailAvatar">N</div>
-        <span id="detailAuthor">NovaDev</span>
-      </div>
-    </div>
-
-    <div class="detail-actions">
-      <button class="secondary-btn" onclick="likeCurrent()">♡ Like</button>
-      <button class="primary-btn" onclick="copyCurrent()">Copy Code</button>
-    </div>
-
-  </div>
-
-  <div class="tags" id="detailTags"></div>
-
-  <div class="code-window">
-
-    <div class="code-window-header">
-      <div class="window-dots">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-
-      <span class="filename" id="detailFilename">theme.css</span>
-
-      <button class="secondary-btn" style="padding:6px 10px;font-size:11px;" onclick="copyCurrent()">
-        Copy
-      </button>
-    </div>
-
-    <pre id="detailCode"></pre>
-
-  </div>
-
-</div>
-
-</main>
-
-<!-- UPLOAD -->
-<main id="upload" class="page">
-
-<div class="container">
-
-<section class="page-header">
-  <h1>Upload Code</h1>
-  <p>Share your Vectaria.io creation with the community.</p>
-</section>
-
-<div class="card form-box">
-
-  <div class="form-group">
-    <label>Project Name</label>
-    <input id="uploadName" class="form-control" placeholder="e.g. My Awesome Theme">
-  </div>
-
-  <div class="form-group">
-    <label>Category</label>
-    <select id="uploadCategory" class="form-control">
-      <option>CSS Themes</option>
-      <option>UserScripts</option>
-      <option>Game Mods</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label>Description</label>
-    <textarea id="uploadDescription" class="form-control" style="min-height:100px;font-family:inherit;" placeholder="Describe your project..."></textarea>
-  </div>
-
-  <div class="form-group">
-    <label>Tags</label>
-    <input id="uploadTags" class="form-control" placeholder="cyberpunk, dark, neon">
-  </div>
-
-  <div class="form-group">
-    <label>Code</label>
-    <textarea id="uploadCode" class="form-control" placeholder="Paste your code here..."></textarea>
-  </div>
-
-  <div style="padding:12px 14px;border:1px solid rgba(0,234,255,.12);background:rgba(0,234,255,.04);border-radius:10px;color:#8da0bd;font-size:12px;line-height:1.6;margin-bottom:20px;">
-    Your code will be displayed as plain text. VectariaCodes does not automatically execute uploaded code.
-  </div>
-
-  <button class="primary-btn" style="width:100%;" onclick="uploadCode()">
-    Publish Code
-  </button>
-
-</div>
-
-</div>
-
-</main>
-
-<!-- PROFILE -->
-<main id="profile" class="page">
-
-<div class="container">
-
-<section class="page-header">
-  <h1>Profile</h1>
-  <p>Your VectariaCodes creator profile.</p>
-</section>
-
-<div class="card profile-head">
-
-  <div class="profile-avatar">N</div>
-
-  <div>
-    <h2>NovaDev</h2>
-    <p>@novadev · Creator</p>
-
-    <div class="profile-stats">
-      <div>
-        <strong>12</strong>
-        <span class="meta">Projects</span>
-      </div>
-
-      <div>
-        <strong>3.8K</strong>
-        <span class="meta">Likes</span>
-      </div>
-
-      <div>
-        <strong>28K</strong>
-        <span class="meta">Views</span>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<section class="section" style="padding-top:35px;">
-  <div class="section-header">
-    <div>
-      <h2 class="section-title">Your Projects</h2>
-      <p class="section-subtitle">Projects published by this account.</p>
-    </div>
-  </div>
-
-  <div class="grid" id="profileGrid"></div>
-</section>
-
-</div>
-
-</main>
-
-<!-- ADMIN -->
-<main id="admin" class="page">
-
-<div class="container">
-
-<section class="page-header">
-  <h1>Admin Dashboard</h1>
-  <p>Manage the VectariaCodes community.</p>
-</section>
-
-<div class="admin-grid">
-
-  <div class="card admin-stat">
-    <strong>128</strong>
-    <span>Total Codes</span>
-  </div>
-
-  <div class="card admin-stat">
-    <strong>42</strong>
-    <span>Creators</span>
-  </div>
-
-  <div class="card admin-stat">
-    <strong>3,921</strong>
-    <span>Total Likes</span>
-  </div>
-
-  <div class="card admin-stat">
-    <strong>28.4K</strong>
-    <span>Views</span>
-  </div>
-
-</div>
-
-<div class="card admin-table">
-
-<table>
-<thead>
-<tr>
-<th>Project</th>
-<th>Creator</th>
-<th>Category</th>
-<th>Status</th>
-<th>Action</th>
-</tr>
-</thead>
-
-<tbody id="adminTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</main>
-
-<footer>
-<div class="container footer-inner">
-  <span>© 2026 VectariaCodes</span>
-  <span>Community-built code sharing platform · Not affiliated with Vectaria.io</span>
-</div>
-</footer>
-
-<div id="toast" class="toast"></div>
-
+<main id="explore" class="page"><div class="wrap shell">
+<div class="pagehead"><h1>Explore Codes</h1><p>Search themes, scripts and modifications by project, creator or tag.</p></div>
+<div class="searchbox"><span>⌕</span><input id="searchInput" class="search" placeholder="Search codes, creators or tags..." oninput="renderExplore()" autocomplete="off"><button class="clear-search" id="clearSearch" onclick="clearSearch()" aria-label="Clear search">×</button></div>
+<div class="filters"><button class="filter active" onclick="setFilter('All',this)">All</button><button class="filter" onclick="setFilter('CSS Themes',this)">CSS Themes</button><button class="filter" onclick="setFilter('UserScripts',this)">UserScripts</button><button class="filter" onclick="setFilter('Game Mods',this)">Game Mods</button></div>
+<div class="toolbar"><span class="count" id="count">0 codes</span><select class="sort" id="sort" onchange="renderExplore()"><option value="recommended">Recommended</option><option value="likes">Most liked</option><option value="views">Most viewed</option><option value="newest">Newest</option><option value="name">Name A–Z</option></select></div>
+<div class="grid" id="exploreGrid"></div></div></main>
+
+<main id="detail" class="page"><div class="wrap shell"><div class="detail"><section class="card detailmain">
+<span class="back" onclick="showPage('explore')">← Back to Explore</span><div style="margin-top:18px"><span id="dcat" class="badge">CSS THEMES</span></div>
+<h1 id="dname"></h1><p class="detaildesc" id="ddesc"></p><div class="tags" id="dtags"></div>
+<div class="panel"><div class="panelhead"><span id="dfile">code.txt</span><button class="btn" onclick="copyCode()">Copy Code</button></div><pre class="pre" id="dcode"></pre></div>
+</section><aside class="card detailside">
+<div class="sideblock"><div class="label">Creator</div><div class="author"><span class="authorav" id="davatar">N</span><span id="dauthor"></span></div></div>
+<div class="sideblock"><div class="label">Stats</div><div class="metrics"><span>♡ <b id="dlikes">0</b></span><span>◉ <b id="dviews">0</b></span></div></div>
+<div class="sideblock"><div class="label">Actions</div><div class="sideactions"><button class="btn" id="likeBtn" onclick="toggleLike()">♡ Like</button><button class="btn primary" onclick="copyCode()">Copy Code</button></div></div>
+<div class="sideblock"><div class="label">Safety</div><div class="notice" style="margin:0">Shared code is displayed as plain text and is never automatically executed.</div></div>
+</aside></div></div></main>
+
+<main id="upload" class="page"><div class="wrap shell"><div class="pagehead"><h1>Upload Code</h1><p>Publish a project to your VectariaCodes library.</p></div><div class="notice" id="uploadNotice"><b>Sign in to publish.</b> Cloud projects are tied to your account. You can still preview the upload form before signing in.</div>
+<form id="uploadForm" class="card form" onsubmit="upload(event)" novalidate><div class="formgrid">
+<div class="field"><label for="pn">Project name <span class="req">*</span></label><input id="pn" required minlength="2" maxlength="60" placeholder="Aurora HUD" autocomplete="off"><div class="fieldmeta"><span>2–60 characters</span><span id="pnCount">0/60</span></div></div>
+<div class="field"><label for="pc">Category <span class="req">*</span></label><select id="pc" required><option value="CSS Themes">CSS Themes</option><option value="UserScripts">UserScripts</option><option value="Game Mods">Game Mods</option></select></div>
+<div class="field full"><label for="pd">Description <span class="req">*</span></label><input id="pd" required minlength="10" maxlength="180" placeholder="What does your project do?" autocomplete="off"><div class="fieldmeta"><span>Tell people what it changes or adds.</span><span id="pdCount">0/180</span></div></div>
+<div class="field full"><label for="pt">Tags</label><input id="pt" maxlength="120" placeholder="hud, neon, ui" autocomplete="off"><div class="fieldmeta"><span>Separate tags with commas · up to 8 tags</span><span id="ptCount">0/120</span></div></div>
+<div class="field full"><label for="px">Code <span class="req">*</span></label><textarea id="px" required minlength="1" maxlength="50000" spellcheck="false" placeholder="Paste your CSS, UserScript or mod code here..."></textarea><div class="fieldmeta"><span>Maximum 50,000 characters</span><span id="pxCount">0/50000</span></div><span class="help">🔒 Code is stored and displayed as plain text. VectariaCodes never executes uploaded code.</span></div>
+</div><div id="uploadError" class="formerror" role="alert" aria-live="polite"></div><div class="uploadpreview"><div><span class="previewlabel">FILE PREVIEW</span><strong id="filePreview">project.css</strong></div><span id="codeTypePreview" class="badge">CSS THEME</span></div><div class="formactions"><button type="button" class="btn" onclick="clearUploadForm()">Clear</button><button type="button" class="btn" onclick="showPage('explore')">Cancel</button><button class="btn primary" type="submit">Publish Project →</button></div></form></div></main>
+
+<main id="profile" class="page"><div class="wrap shell">
+<div class="card profile"><div class="bigavatar" id="profileAvatar">G</div><div><div class="profilename" id="profileName">Guest</div><div class="handle" id="profileHandle">@guest · Guest</div><div class="profilebio" id="profileBio">Sign in to create your VectariaCodes profile.</div></div><div class="profilestats"><div><b id="pp">0</b><span>Projects</span></div><div><b id="pl">0</b><span>Likes</span></div><div><b id="pv">0</b><span>Views</span></div></div></div>
+<div class="profilegrid">
+<div><div class="head"><div><h2>Your Library</h2><p id="profileLibrarySub">Sign in to manage your projects and saved codes.</p></div><button class="btn primary" id="profileUploadBtn" onclick="requireLogin('Sign in to upload code.')">＋ Upload</button></div><div class="profile-tabs"><button class="profile-tab active" id="myProjectsTab" onclick="setProfileTab('projects',this)">My Projects</button><button class="profile-tab" onclick="setProfileTab('liked',this)">Liked Codes</button></div><div class="grid" id="profileGrid"></div></div>
+<div><div class="card profilepanel"><div class="head"><div><h3>Profile settings</h3><p id="profileSettingsSub">Guest profiles cannot be edited.</p></div><button class="btn profile-locked" onclick="requireLogin('Sign in to edit your profile.')" id="editProfileBtn">Edit 🔒</button></div><div class="profile-edit" id="profileEdit"><form class="profile-form" onsubmit="saveProfile(event)"><div><label class="label">Display name</label><input id="pfName" maxlength="30" required></div><div><label class="label">Handle</label><input id="pfHandle" maxlength="24" placeholder="jihoon"></div><div><label class="label">Bio</label><textarea id="pfBio" maxlength="160" placeholder="Tell the community what you create."></textarea></div><div class="profile-actions"><button class="btn primary" type="submit">Save changes</button><button class="btn" type="button" onclick="toggleProfileEdit(false)">Cancel</button></div><div class="profile-note">Profile information syncs to your VectariaCodes account when cloud mode is enabled.</div></form></div><div class="profile-login-card" id="profileLoginCard"><p>You're viewing VectariaCodes as a guest. Sign in to create a profile, upload code, like projects and manage your library.</p><button class="btn primary" onclick="openAuth()">Sign in to VectariaCodes →</button></div></div></div></div>
+</div></main>
+
+<main id="admin" class="page"><div class="wrap shell"><div class="pagehead"><h1>Admin Dashboard</h1><p>Manage community projects and inspect platform activity.</p></div><div class="adminnotice" id="adminNotice"><b>Account workspace.</b> Manage projects owned by your signed-in account. Global administrator controls can be enabled separately in the database.</div><div class="adminstats"><div class="card adminstat"><b id="ac">0</b><span>Total codes</span></div><div class="card adminstat"><b id="au">0</b><span>Your uploads</span></div><div class="card adminstat"><b id="act">0</b><span>Categories</span></div><div class="card adminstat"><b id="al">0</b><span>Total likes</span></div><div class="card adminstat"><b id="av">0</b><span>Total views</span></div></div><div class="card tablewrap"><div style="padding:14px 14px 0"><div class="admin-toolbar"><input id="adminSearch" class="admin-search" placeholder="Search projects or creators..." oninput="renderAdmin()"><select id="adminFilter" class="admin-filter" onchange="renderAdmin()"><option value="All">All categories</option><option value="CSS Themes">CSS Themes</option><option value="UserScripts">UserScripts</option><option value="Game Mods">Game Mods</option><option value="Mine">My uploads</option></select></div></div><table class="table"><thead><tr><th>Project</th><th>Category</th><th>Creator</th><th>Likes</th><th>Views</th><th>Type</th><th>Action</th></tr></thead><tbody id="adminBody"></tbody></table></div><div class="card activity"><h3>Recent activity</h3><div class="activity-list" id="activityList"></div></div></div></main>
+
+<div class="auth-overlay" id="authOverlay" onclick="if(event.target===this)closeAuth()"><div class="auth-card" role="dialog" aria-modal="true" aria-labelledby="authTitle"><button class="auth-close" onclick="closeAuth()" aria-label="Close">×</button><h2 class="auth-title" id="authTitle">Sign in to VectariaCodes</h2><p class="auth-subtitle" id="authSubtitle">Use Discord to sign in or create your VectariaCodes account.</p><div id="authForms"><div class="auth-providers" style="grid-template-columns:1fr"><button class="auth-provider" onclick="authOAuth()">Continue with Discord</button></div><div class="auth-note" style="margin-top:12px">VectariaCodes uses Discord as its only sign-in method. Your Discord account is used to create and manage your VectariaCodes profile.</div></div><div id="authAccount" class="auth-account" style="display:none"></div><div id="authMessage" class="auth-message" aria-live="polite"></div><div class="auth-note" id="authSetupNote" style="margin-top:10px">Discord OAuth must be enabled in Supabase Auth and the configured callback URL must match your Discord application.</div></div></div>
+<footer><div class="wrap"><span>© 2026 VectariaCodes</span><span class="cloud-status"><i class="cloud-dot" id="cloudDot"></i><span id="cloudStatus">Local storage mode</span></span><span>Community code hub · Not affiliated with Vectaria.io</span></div></footer>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script>
-
-const projects = [
-
-{
- id:1,
- name:"NEON//VOID",
- category:"CSS Themes",
- description:"A cyberpunk-inspired Vectaria.io interface with neon cyan, purple and pink accents.",
- author:"NovaDev",
- avatar:"N",
- tags:["cyberpunk","neon","dark"],
- filename:"neon-void.css",
- likes:842,
- views:6410,
- code:`/* NEON//VOID */
-
-:root {
+const demo=[
+{id:"neon-void",name:"NEON//VOID",category:"CSS Themes",description:"Cyberpunk-inspired interface with neon cyan, purple and pink accents.",author:"NovaDev",tags:["cyberpunk","neon","dark"],likes:842,views:2400,date:"2026-09-10",file:"neon-void.css",code:`:root {
   --nv-cyan: #00f6ff;
-  --nv-pink: #ff1493;
   --nv-purple: #8a2be2;
-  --nv-dark: #03070d;
 }
-
-body {
-  background: var(--nv-dark);
-}
-
 .nav-bar {
-  border-color: var(--nv-cyan);
-  box-shadow: 0 0 18px rgba(0,246,255,.25);
-}
-
-button:hover {
-  border-color: var(--nv-pink);
-}`
-},
-
-{
- id:2,
- name:"QuickTools",
- category:"UserScripts",
- description:"Small quality-of-life tools designed to make everyday Vectaria.io usage easier.",
- author:"PixelByte",
- avatar:"P",
- tags:["utility","tools","qol"],
- filename:"quicktools.user.js",
- likes:529,
- views:4201,
- code:`// QuickTools
-// VectariaCodes demo project
-
-(() => {
+  border: 1px solid var(--nv-cyan);
+  box-shadow: 0 0 24px rgba(0,246,255,.18);
+}`},
+{id:"quicktools",name:"QuickTools",category:"UserScripts",description:"Small quality-of-life helpers that add useful shortcuts and controls.",author:"PixelByte",tags:["tools","utility","qol"],likes:521,views:1900,date:"2026-09-08",file:"quicktools.user.js",code:`(() => {
   "use strict";
-
-  console.log("QuickTools loaded");
-
-  // Add your own utilities here.
-})();`
-},
-
-{
- id:3,
- name:"Minimal HUD",
- category:"CSS Themes",
- description:"A clean minimal interface focused on reducing visual clutter.",
- author:"Orbit",
- avatar:"O",
- tags:["minimal","clean","ui"],
- filename:"minimal-hud.css",
- likes:391,
- views:3150,
- code:`/* Minimal HUD */
-
-.hud {
-  opacity: .88;
+  const toolbar = document.querySelector(".toolbar");
+  if (toolbar) console.log("QuickTools ready");
+})();`},
+{id:"minimal-hud",name:"Minimal HUD",category:"CSS Themes",description:"A clean interface focused on reducing visual clutter.",author:"Orbit",tags:["minimal","clean","ui"],likes:391,views:1800,date:"2026-09-06",file:"minimal-hud.css",code:`.hud {
+  background: rgba(8,12,20,.88);
+  border: 1px solid rgba(255,255,255,.08);
   backdrop-filter: blur(12px);
+}`},
+{id:"colorshift",name:"ColorShift",category:"CSS Themes",description:"A vivid futuristic theme with colorful gradients.",author:"Luma",tags:["colorful","gradient","future"],likes:286,views:1200,date:"2026-09-04",file:"colorshift.css",code:`:root {
+  --accent-a: #55e8ff;
+  --accent-b: #e96cff;
 }
-
-.panel {
-  border-radius: 14px;
-  background: rgba(8,10,18,.82);
-}
-
-button {
-  transition: transform .2s ease;
-}`
-},
-
-{
- id:4,
- name:"ColorShift",
- category:"CSS Themes",
- description:"A colorful theme that gives the interface a vivid futuristic appearance.",
- author:"Luma",
- avatar:"L",
- tags:["colorful","gradient","future"],
- filename:"colorshift.css",
- likes:286,
- views:2490,
- code:`/* ColorShift */
-
-:root {
-  --primary: #7c3aed;
-  --secondary: #06b6d4;
-}
-
-body {
-  background:
-    radial-gradient(circle at 20% 20%, #7c3aed22, transparent 35%),
-    #070914;
-}`
-},
-
-{
- id:5,
- name:"Status Panel",
- category:"UserScripts",
- description:"Adds a compact information panel for quickly viewing useful status data.",
- author:"ByteFox",
- avatar:"B",
- tags:["panel","status","utility"],
- filename:"status-panel.user.js",
- likes:214,
- views:1980,
- code:`// Status Panel
-
-(function(){
-  "use strict";
-
+.button {
+  background: linear-gradient(135deg,var(--accent-a),var(--accent-b));
+}`},
+{id:"status-panel",name:"Status Panel",category:"UserScripts",description:"A compact panel for useful session information.",author:"ByteFox",tags:["status","panel","utility"],likes:244,views:980,date:"2026-09-02",file:"status-panel.user.js",code:`(() => {
   const panel = document.createElement("div");
-
   panel.textContent = "Status Panel";
-
-  console.log(panel);
-})();`
-},
-
-{
- id:6,
- name:"Sandbox Kit",
- category:"Game Mods",
- description:"A community mod concept containing experimental sandbox utilities.",
- author:"ArcNode",
- avatar:"A",
- tags:["sandbox","experimental","mod"],
- filename:"sandbox-kit.js",
- likes:178,
- views:1702,
- code:`// Sandbox Kit
-// Experimental demo
-
-const SandboxKit = {
+  panel.className = "vc-status-panel";
+  document.body.appendChild(panel);
+})();`},
+{id:"sandbox-kit",name:"Sandbox Kit",category:"Game Mods",description:"A prototype mod concept focused on creative sandbox utilities.",author:"ArcNode",tags:["sandbox","creative","mod"],likes:311,views:1100,date:"2026-08-30",file:"sandbox-kit.mod",code:`mod.register("sandbox-kit", {
   version: "0.1.0",
-
-  init() {
-    console.log("Sandbox Kit initialized");
-  }
-};
-
-SandboxKit.init();`
-}
-
+  features: ["creative-tools","utility-menu"]
+});`}
 ];
-
-let currentProject = null;
-let currentFilter = "All";
-
-function showPage(page){
-
-  document.querySelectorAll(".page").forEach(p=>{
-    p.classList.remove("active");
-  });
-
-  const target=document.getElementById(page);
-
-  if(target){
-    target.classList.add("active");
-  }
-
-  document.querySelectorAll(".nav-link").forEach(link=>{
-    link.classList.toggle(
-      "active",
-      link.dataset.page===page
-    );
-  });
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-  if(page==="explore"){
-    renderExplore();
-  }
-
-  if(page==="profile"){
-    renderProfile();
-  }
-
-  if(page==="admin"){
-    renderAdmin();
-  }
-}
-
-function projectCard(project){
-
-  return `
-  <div class="card code-card" onclick="openProject(${project.id})">
-
-    <div class="code-top">
-
-      <div class="code-icon">
-        ${project.category==="CSS Themes"?"◈":
-          project.category==="UserScripts"?"⌘":"◇"}
-      </div>
-
-      <span class="code-menu">•••</span>
-
-    </div>
-
-    <h3>${escapeHTML(project.name)}</h3>
-
-    <p class="code-description">
-      ${escapeHTML(project.description)}
-    </p>
-
-    <div class="tags">
-      ${project.tags.map(tag=>`
-        <span class="tag">${escapeHTML(tag)}</span>
-      `).join("")}
-    </div>
-
-    <div class="code-footer">
-
-      <div class="author">
-        <div class="avatar">${escapeHTML(project.avatar)}</div>
-        <span>${escapeHTML(project.author)}</span>
-      </div>
-
-      <span class="meta">
-        ♡ ${project.likes.toLocaleString()}
-      </span>
-
-    </div>
-
-  </div>
-  `;
-}
-
-function renderFeatured(){
-
-  const grid=document.getElementById("featuredGrid");
-
-  grid.innerHTML=
-    projects.slice(0,3).map(projectCard).join("");
-}
-
-function renderExplore(){
-    const grid=document.getElementById("exploreGrid");
-
-  const query=
-    document.getElementById("searchInput")?.value
-    .toLowerCase()
-    .trim() || "";
-
-  const sort=
-    document.getElementById("sortSelect")?.value || "default";
-
-  let filtered=projects.filter(project=>{
-
-    const matchesFilter=
-      currentFilter==="All" ||
-      project.category===currentFilter;
-
-    const searchable=
-      (
-        project.name+
-        " "+
-        project.description+
-        " "+
-        project.author+
-        " "+
-        project.tags.join(" ")
-      ).toLowerCase();
-
-    return matchesFilter &&
-      searchable.includes(query);
-  });
-
-  /* SORT */
-  if(sort==="name"){
-
-    filtered.sort((a,b)=>
-      a.name.localeCompare(b.name)
-    );
-
-  }
-
-  /* RESULT COUNT */
-  const countElement=
-    document.getElementById("exploreResultsCount");
-
-  if(countElement){
-
-    countElement.textContent=
-      filtered.length === 1
-        ? "1 code"
-        : `${filtered.length} codes`;
-
-  }
-
-  /* EMPTY STATE */
-  if(!filtered.length){
-
-    grid.innerHTML=`
-      <div
-        class="card code-card"
-        style="grid-column:1/-1;text-align:center;padding:50px;"
-      >
-
-        <div style="font-size:30px;margin-bottom:10px;">
-          ∅
-        </div>
-
-        <h3>No codes found</h3>
-
-        <p class="code-description">
-          Try another search or category.
-        </p>
-
-      </div>
-    `;
-
-    return;
-  }
-
-  /* RENDER */
-  grid.innerHTML=
-    filtered
-      .map(projectCard)
-      .join("");
-}
-
-function setFilter(filter,button){
-
-  currentFilter=filter;
-
-  document.querySelectorAll(".filter")
-    .forEach(btn=>btn.classList.remove("active"));
-
-  button.classList.add("active");
-
-  renderExplore();
-}
-
-function openProject(id){
-
-  const project=projects.find(p=>p.id===id);
-
-  if(!project)return;
-
-  currentProject=project;
-
-  document.getElementById("detailTitle").textContent=project.name;
-  document.getElementById("detailCategory").textContent=project.category;
-  document.getElementById("detailDescription").textContent=project.description;
-  document.getElementById("detailAuthor").textContent=project.author;
-  document.getElementById("detailAvatar").textContent=project.avatar;
-  document.getElementById("detailFilename").textContent=project.filename;
-  document.getElementById("detailCode").textContent=project.code;
-
-  document.getElementById("detailTags").innerHTML=
-    project.tags.map(tag=>`
-      <span class="tag">${escapeHTML(tag)}</span>
-    `).join("");
-
-  showPage("detail");
-}
-
-function copyCurrent(){
-
-  if(!currentProject)return;
-
-  navigator.clipboard.writeText(currentProject.code)
-    .then(()=>{
-      toast("Code copied to clipboard");
-    })
-    .catch(()=>{
-      toast("Copy failed");
+let projects=[...demo,...loadUser()];let filter="All",current=null;let liked=new Set(JSON.parse(localStorage.getItem("vc-liked")||"[]"));
+let profileData=loadProfile();let profileTab="projects";
+let vcCloud=null,vcUser=null,vcCloudReady=false,vcCloudError="";
+function loadProfile(){try{return {...{name:"Jihoon",handle:"jihoon",bio:"Creator profile for VectariaCodes."},...JSON.parse(localStorage.getItem("vc-profile")||"{}")}}catch{return {name:"Jihoon",handle:"jihoon",bio:"Creator profile for VectariaCodes."}}}
+function saveProfileData(){localStorage.setItem("vc-profile",JSON.stringify(profileData))}
+function activityLog(){try{return JSON.parse(localStorage.getItem("vc-activity")||"[]")}catch{return[]}}
+function addActivity(text){let a=activityLog();a.unshift({text,date:new Date().toLocaleString([], {month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})});localStorage.setItem("vc-activity",JSON.stringify(a.slice(0,12)))}
+function loadUser(){try{return JSON.parse(localStorage.getItem("vc-projects")||"[]")}catch{return[]}}
+function saveUser(){localStorage.setItem("vc-projects",JSON.stringify(projects.filter(p=>p.user)))}
+function setCloudStatus(mode,message){const dot=document.getElementById("cloudDot"),label=document.getElementById("cloudStatus");if(!dot||!label)return;dot.className="cloud-dot"+(mode==="online"?" online":mode==="error"?" error":"");label.textContent=message}
+function cloudConfigured(){return !!(window.VC_SUPABASE_CONFIG&&window.VC_SUPABASE_CONFIG.url&&window.VC_SUPABASE_CONFIG.publishableKey&&!window.VC_SUPABASE_CONFIG.url.includes("YOUR_"))}
+function cloudRowToProject(r){return {id:r.id,name:r.name,category:r.category,description:r.description,author:r.author_name||"Creator",tags:r.tags||[],likes:Number(r.likes_count||0),views:Number(r.views_count||0),date:(r.created_at||"").slice(0,10),file:r.file_name,code:r.code,user:r.owner_id===vcUser?.id,owner_id:r.owner_id,cloud:true}}
+async function cloudInit(){
+  if(!cloudConfigured()){setCloudStatus("local","Local storage mode");updateAuthUI();updateUploadAccess();return false}
+  try{
+    vcCloud=window.supabase.createClient(window.VC_SUPABASE_CONFIG.url,window.VC_SUPABASE_CONFIG.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    let session=(await vcCloud.auth.getSession()).data.session;
+    vcUser=session?.user||null;
+    vcCloudReady=!!vcUser;
+    if(vcUser){
+      await cloudLoadProfile();
+      await cloudLoadLikes();
+      await cloudLoadProjects();
+      setCloudStatus("online","Cloud account connected");
+    }else{
+      await cloudLoadProjects();
+      setCloudStatus("online","Cloud database connected · Sign in to publish");
+    }
+    updateAuthUI();updateUploadAccess();renderHome();renderExplore();renderProfile();renderAdmin();
+    vcCloud.auth.onAuthStateChange(async(event,session)=>{
+      vcUser=session?.user||null;vcCloudReady=!!vcUser;
+      if(vcUser){
+        try{await cloudLoadProfile();await cloudLoadLikes();await cloudLoadProjects()}catch(e){console.warn(e)}
+        setCloudStatus("online",vcUser.is_anonymous?"Guest cloud mode":"Signed in · Cloud synced");
+      }else{
+        liked=new Set(JSON.parse(localStorage.getItem("vc-liked")||"[]"));
+        setCloudStatus("online","Cloud database connected · Sign in to publish");
+      }
+      updateAuthUI();updateUploadAccess();renderHome();renderExplore();renderProfile();renderAdmin();
     });
+    return true;
+  }catch(e){vcCloudError=e?.message||String(e);console.warn("Supabase disabled:",vcCloudError);setCloudStatus("error","Cloud connection unavailable · local mode");updateAuthUI();updateUploadAccess();return false}
 }
-
-function likeCurrent(){
-
-  if(!currentProject)return;
-
-  currentProject.likes++;
-
-  toast("Added to your likes ♡");
+async function cloudLoadProjects(){if(!vcCloudReady&& !vcCloud)return;let {data,error}=await vcCloud.from("projects").select("id,owner_id,name,category,description,tags,file_name,code,likes_count,views_count,created_at,profiles!projects_owner_id_fkey(display_name)").order("created_at",{ascending:false});if(error)throw error;projects=[...demo,...(data||[]).map(r=>({...cloudRowToProject(r),author:r.profiles?.display_name||"Creator"}))]}
+async function cloudLoadProfile(){if(!vcCloud||!vcUser)return;let {data,error}=await vcCloud.from("profiles").select("display_name,handle,bio").eq("id",vcUser.id).maybeSingle();if(error)throw error;if(data){profileData={name:data.display_name||profileData.name,handle:data.handle||profileData.handle,bio:data.bio||profileData.bio};saveProfileData()}else{await vcCloud.from("profiles").upsert({id:vcUser.id,display_name:profileData.name,handle:profileData.handle,bio:profileData.bio})}}
+async function cloudLoadLikes(){if(!vcCloud||!vcUser)return;let {data,error}=await vcCloud.from("project_likes").select("project_id").eq("user_id",vcUser.id);if(error)throw error;liked=new Set((data||[]).map(x=>x.project_id));localStorage.setItem("vc-liked",JSON.stringify([...liked]))}
+async function cloudMigrateLocal(){if(!vcCloud||!vcUser)return;let local=loadUser();if(!local.length)return;for(const p of local){let {data:existing}=await vcCloud.from("projects").select("id").eq("owner_id",vcUser.id).ilike("name",p.name).maybeSingle();if(existing)continue;await vcCloud.from("projects").insert({owner_id:vcUser.id,name:p.name,category:p.category,description:p.description,tags:p.tags,file_name:p.file,code:p.code})}localStorage.removeItem("vc-projects")}
+async function cloudSaveProfile(){if(!vcCloud||!vcUser)return;let {error}=await vcCloud.from("profiles").upsert({id:vcUser.id,display_name:profileData.name,handle:profileData.handle,bio:profileData.bio,updated_at:new Date().toISOString()});if(error)throw error}
+async function cloudCreateProject(p){let {data,error}=await vcCloud.from("projects").insert({owner_id:vcUser.id,name:p.name,category:p.category,description:p.description,tags:p.tags,file_name:p.file,code:p.code}).select("id,owner_id,name,category,description,tags,file_name,code,likes_count,views_count,created_at").single();if(error)throw error;return cloudRowToProject(data)}
+async function cloudDeleteProject(id){let {error}=await vcCloud.from("projects").delete().eq("id",id).eq("owner_id",vcUser.id);if(error)throw error}
+async function cloudToggleLike(id){let {data,error}=await vcCloud.rpc("toggle_project_like",{p_project_id:id});if(error)throw error;return !!data}
+async function cloudIncrementView(id){if(!vcCloud)return;let {error}=await vcCloud.rpc("increment_project_view",{p_project_id:id});if(error)console.warn(error)}
+function permanentUser(){return !!(vcUser&&!vcUser.is_anonymous)}
+function updateAuthUI(){
+  const a=document.getElementById("navAvatar"),summary=document.getElementById("profileMenuSummary"),name=document.getElementById("profileMenuName"),role=document.getElementById("profileMenuRole"),auth=document.getElementById("profileMenuAuth"),logout=document.getElementById("profileMenuLogout"),note=document.getElementById("profileGuestNote");
+  const logged=permanentUser();
+  if(a)a.textContent=logged?initials(profileData.name||vcUser.email||"J"):"G";
+  if(name)name.textContent=logged?(profileData.name||"Member"):"Guest";
+  if(role)role.textContent=logged?"Member":"Guest";
+  if(summary)summary.classList.toggle("guest",!logged);
+  if(auth)auth.style.display=logged?"none":"flex";
+  if(logout)logout.style.display=logged?"flex":"none";
+  if(note)note.textContent=logged?"Your account is active. Open Profile to manage your creator information.":"Sign in to edit your profile, publish code and use community actions.";
+  updateProfilePage();
 }
-
-function uploadCode(){
-
-  const name=
-    document.getElementById("uploadName").value.trim();
-
-  const category=
-    document.getElementById("uploadCategory").value;
-
-  const description=
-    document.getElementById("uploadDescription").value.trim();
-
-  const tags=
-    document.getElementById("uploadTags").value
-      .split(",")
-      .map(x=>x.trim())
-      .filter(Boolean);
-
-  const code=
-    document.getElementById("uploadCode").value;
-
-  if(!name || !description || !code){
-
-    toast("Please complete the required fields");
-
+function toggleProfileMenu(event){event?.stopPropagation();const menu=document.getElementById("profileDropdown"),button=document.getElementById("navAvatar");if(!menu)return;const show=!menu.classList.contains("show");menu.classList.toggle("show",show);if(button)button.setAttribute("aria-expanded",String(show))}
+function closeProfileMenu(){const menu=document.getElementById("profileDropdown"),button=document.getElementById("navAvatar");menu?.classList.remove("show");button?.setAttribute("aria-expanded","false")}
+function profileMenuAction(action){closeProfileMenu();if(action==="profile")showPage("profile");else if(action==="auth")openAuth();else if(action==="logout")authSignOut()}
+function requireLogin(message="Sign in to continue."){if(permanentUser())return true;toast(message);openAuth();return false}
+function updateProfilePage(){
+  const logged=permanentUser(),edit=document.getElementById("editProfileBtn"),loginCard=document.getElementById("profileLoginCard"),sub=document.getElementById("profileLibrarySub"),settings=document.getElementById("profileSettingsSub"),uploadBtn=document.getElementById("profileUploadBtn");
+  if(!logged){
+    profileName.textContent="Guest";profileHandle.textContent="@guest · Guest";profileBio.textContent="Sign in to create your VectariaCodes profile.";profileAvatar.textContent="G";pp.textContent="0";pl.textContent="0";pv.textContent="0";
+    if(edit){edit.textContent="Edit 🔒";edit.classList.add("profile-locked");edit.onclick=()=>requireLogin("Sign in to edit your profile.")}
+    if(loginCard)loginCard.style.display="block";if(sub)sub.textContent="Sign in to manage your projects and saved codes.";if(settings)settings.textContent="Guest profiles cannot be edited.";if(uploadBtn){uploadBtn.textContent="＋ Upload";uploadBtn.onclick=()=>requireLogin("Sign in to upload code.")}
+    profileGrid.innerHTML=`<div class="card empty"><b>G</b><h3>Guest mode</h3><p>Sign in to create projects and save your liked codes.</p></div>`;
+    document.getElementById("profileEdit")?.classList.remove("show");
     return;
   }
-
-  const project={
-    id:Date.now(),
-    name,
-    category,
-    description,
-    author:"NovaDev",
-    avatar:"N",
-    tags:tags.length?tags:["community"],
-    filename:
-      category==="CSS Themes"
-      ?"custom-theme.css"
-      :category==="UserScripts"
-      ?"custom-script.user.js"
-      :"custom-mod.js",
-    likes:0,
-    views:0,
-    code
-  };
-
-  projects.unshift(project);
-
-  document.getElementById("uploadName").value="";
-  document.getElementById("uploadDescription").value="";
-  document.getElementById("uploadTags").value="";
-  document.getElementById("uploadCode").value="";
-
-  document.getElementById("statCodes").textContent=
-    128+projects.length-6;
-
-  toast("Project published successfully");
-
-  setTimeout(()=>{
-    openProject(project.id);
-  },500);
+  if(loginCard)loginCard.style.display="none";if(sub)sub.textContent="Manage your projects and saved codes.";if(settings)settings.textContent="Edit your public creator information.";if(uploadBtn)uploadBtn.onclick=()=>showPage("upload");
+  if(edit){edit.textContent="Edit";edit.classList.remove("profile-locked");edit.onclick=()=>toggleProfileEdit()}
 }
+document.addEventListener("click",e=>{if(!e.target.closest(".profile-menu"))closeProfileMenu()});
+function updateUploadAccess(){
+  const n=document.getElementById("uploadNotice"), submit=document.querySelector('#uploadForm button[type="submit"]');
+  if(!n||!submit)return;
+  if(!cloudConfigured()){n.innerHTML='<b>Preview mode.</b> Connect Supabase to publish projects online.';submit.disabled=false;return}
+  if(permanentUser()){n.innerHTML='<b>Ready to publish.</b> This project will be attached to your signed-in account.';submit.disabled=false}
+  else{n.innerHTML='<b>Sign in to publish.</b> Cloud projects are tied to your account. You can still preview the upload form before signing in.';submit.disabled=true}
+}
+function openAuth(){
+  const overlay=document.getElementById("authOverlay");
+  if(!overlay)return;
+  if(!cloudConfigured()){
+    overlay.classList.add("show");
+    showAuthMessage("Connect Supabase first. Add your Project URL and Publishable key to supabase-config.js.");
+    return;
+  }
+  if(permanentUser()){renderAccountPanel();overlay.classList.add("show");return}
+  overlay.classList.add("show");
+  showAuthMessage("");
+}
+function closeAuth(){document.getElementById("authOverlay")?.classList.remove("show")}
+function showAuthMessage(message){const el=document.getElementById("authMessage");if(!el)return;el.textContent=message;el.classList.toggle("show",!!message)}
+function authRedirectUrl(){
+  return window.location.origin + window.location.pathname;
+}
+async function authOAuth(){
+  if(!vcCloud){showAuthMessage("Connect Supabase first. Then enable Discord in Supabase Auth.");return}
+  showAuthMessage("Opening Discord sign-in…");
+  const {error}=await vcCloud.auth.signInWithOAuth({provider:"discord",options:{redirectTo:authRedirectUrl()}});
+  if(error){
+    const msg=String(error.message||error);
+    showAuthMessage(msg.includes("provider is not enabled")||msg.includes("Unsupported provider")
+      ? "Discord is not enabled in Supabase Auth yet. Enable it in Authentication → Sign In / Providers."
+      : msg);
+  }
+}
+function renderAccountPanel(){const box=document.getElementById("authForms"),account=document.getElementById("authAccount"),email=esc(vcUser?.email||"No email available");if(!box||!account)return;box.style.display="none";account.style.display="grid";account.innerHTML=`<div class="auth-account-box"><div class="auth-account-name">${esc(profileData.name||"Creator")}</div><div class="auth-account-email">${email}</div></div><div class="auth-account-actions"><button class="btn" onclick="showPage('profile');closeAuth()">Open Profile</button><button class="btn" onclick="authSignOut()">Sign out</button></div><div class="auth-note">Your session is stored by Supabase Auth in the browser. Keep your account credentials private.</div>`;showAuthMessage("")}
+async function authSignOut(){if(!vcCloud)return;const {error}=await vcCloud.auth.signOut();if(error){showAuthMessage(error.message);return}vcUser=null;vcCloudReady=false;liked=new Set();localStorage.removeItem("vc-liked");updateAuthUI();updateUploadAccess();renderProfile();renderExplore();renderAdmin();setCloudStatus("online","Cloud database connected · Sign in to publish");closeAuth();toast("Signed out.")}
+function esc(s){return String(s).replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]))}
+function fmt(n){return n>=1000?(n/1000).toFixed(n>=10000?0:1).replace(".0","")+"K":String(n)}
+function initials(s){return s.split(/\s+/).map(x=>x[0]).join("").slice(0,2).toUpperCase()}
+function badge(c){return c==="UserScripts"?"script":c==="Game Mods"?"mod":""}
+function card(p){return `<article class="card code-card" onclick="openProject('${esc(p.id)}')"><div class="cardtop"><span class="badge ${badge(p.category)}">${esc(p.category)}</span><span style="color:#66738a">•••</span></div><div class="cardicon">${p.category==="UserScripts"?"⌁":p.category==="Game Mods"?"◆":"◇"}</div><h3>${esc(p.name)}</h3><p class="desc">${esc(p.description)}</p><div class="tags">${p.tags.slice(0,4).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div><div class="cardbottom"><div class="author"><span class="authorav">${esc(initials(p.author))}</span>${esc(p.author)}</div><div class="metrics"><span>♡ ${fmt(p.likes)}</span><span>◉ ${fmt(p.views)}</span></div></div></article>`}
+function showPage(id){if(id==="admin"&&!requireLogin("Sign in to access the Admin Dashboard."))return;document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".link").forEach(a=>a.classList.toggle("active",a.dataset.page===id));document.getElementById("links").classList.remove("open");scrollTo(0,0);if(id==="home")renderHome();if(id==="explore")renderExplore();if(id==="profile")renderProfile();if(id==="admin")renderAdmin()}
+function renderHome(){homeGrid.innerHTML=[...projects].sort((a,b)=>b.likes-a.likes).slice(0,3).map(card).join("")}
+function renderExplore(){let q=(searchInput.value||"").toLowerCase().trim(),tokens=q.split(/\s+/).filter(Boolean),s=sort.value;let list=projects.filter(p=>{if(filter!=="All"&&p.category!==filter)return false;let text=[p.name,p.description,p.author,p.category,...p.tags].join(" ").toLowerCase();return tokens.every(t=>text.includes(t))});if(s==="likes")list.sort((a,b)=>b.likes-a.likes);else if(s==="views")list.sort((a,b)=>b.views-a.views);else if(s==="newest")list.sort((a,b)=>new Date(b.date)-new Date(a.date));else if(s==="name")list.sort((a,b)=>a.name.localeCompare(b.name));else list.sort((a,b)=>(b.likes*4+b.views)-(a.likes*4+a.views));count.textContent=list.length===1?"1 code":`${list.length} codes`;exploreGrid.innerHTML=list.length?list.map(card).join(""):`<div class="card empty"><b>⌕</b><h3>No codes found</h3><p>Try another search or category.</p></div>`}
+function setFilter(v,b){filter=v;document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderExplore()}
+function clearSearch(){searchInput.value="";searchInput.focus();renderExplore()}
+document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();showPage("explore");setTimeout(()=>searchInput.focus(),0)}if(e.key==="Escape"&&document.activeElement===searchInput)clearSearch()})
+async function openProject(id){if(!requireLogin("Sign in to view and use code."))return;let p=projects.find(x=>x.id===id);if(!p)return;current=id;if(vcCloudReady&&p.cloud){p.views++;cloudIncrementView(id).catch(()=>{})}else{p.views++}dcat.textContent=p.category.toUpperCase();dcat.className="badge "+badge(p.category);dname.textContent=p.name;ddesc.textContent=p.description;dfile.textContent=p.file;dcode.textContent=p.code;dauthor.textContent=p.author;davatar.textContent=initials(p.author);dlikes.textContent=fmt(p.likes);dviews.textContent=fmt(p.views);dtags.innerHTML=p.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join("");likeBtn.classList.toggle("liked",liked.has(id));likeBtn.textContent=liked.has(id)?"♥ Liked":"♡ Like";showPage("detail")}
+async function copyCode(){if(!requireLogin("Sign in to use code."))return;let p=projects.find(x=>x.id===current);if(!p)return;try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(p.code)}else{let ta=document.createElement("textarea");ta.value=p.code;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.focus();ta.select();document.execCommand("copy");ta.remove()}toast("Code copied to clipboard.")}catch{toast("Copy failed — select the code manually.")}}
+async function toggleLike(){if(!requireLogin("Sign in to like code."))return;let p=projects.find(x=>x.id===current);if(!p)return;if(vcCloudReady&&p.cloud){try{let nowLiked=await cloudToggleLike(p.id);if(nowLiked){liked.add(p.id);p.likes++}else{liked.delete(p.id);p.likes=Math.max(0,p.likes-1)}localStorage.setItem("vc-liked",JSON.stringify([...liked]));dlikes.textContent=fmt(p.likes);likeBtn.classList.toggle("liked",nowLiked);likeBtn.textContent=nowLiked?"♥ Liked":"♡ Like";return}catch(e){toast("Cloud like failed. Please try again.")}}if(liked.has(p.id)){liked.delete(p.id);p.likes=Math.max(0,p.likes-1)}else{liked.add(p.id);p.likes++}localStorage.setItem("vc-liked",JSON.stringify([...liked]));dlikes.textContent=fmt(p.likes);likeBtn.classList.toggle("liked",liked.has(p.id));likeBtn.textContent=liked.has(p.id)?"♥ Liked":"♡ Like"}
+function fileExtension(category){return category==="CSS Themes"?"css":category==="UserScripts"?"user.js":"mod"}
+function safeFileName(name){let base=name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")||"project";return base.slice(0,50)+"."+fileExtension(pc.value)}
+function setUploadError(message){uploadError.textContent=message;uploadError.classList.toggle("show",!!message)}
+function updateCounter(input,out,max){out.textContent=`${input.value.length}/${max}`}
+function updateUploadPreview(){filePreview.textContent=safeFileName(pn.value.trim()||"project");codeTypePreview.textContent=pc.value.toUpperCase().replace("CSS THEMES","CSS THEME")}
+function clearUploadForm(){uploadForm.reset();setUploadError("");document.querySelectorAll("#uploadForm .invalid").forEach(x=>x.classList.remove("invalid"));updateUploadUI();toast("Upload form cleared.")}
+function validateUpload(){let fields=[pn,pd,px],messages=[];fields.forEach(x=>x.classList.remove("invalid"));if(!pn.value.trim()||pn.value.trim().length<2){pn.classList.add("invalid");messages.push("Enter a project name with at least 2 characters.")}if(!pd.value.trim()||pd.value.trim().length<10){pd.classList.add("invalid");messages.push("Add a description with at least 10 characters.")}if(!px.value.trim()){px.classList.add("invalid");messages.push("Paste the code you want to publish.")}let tags=pt.value.split(",").map(x=>x.trim()).filter(Boolean);if(tags.length>8)messages.push("Use no more than 8 tags.");if(px.value.length>50000)messages.push("Code must be 50,000 characters or fewer.");return messages}
+async function upload(e){e.preventDefault();if(cloudConfigured()&&!permanentUser()){openAuth();toast("Sign in to publish a cloud project.");return}let errors=validateUpload();if(errors.length){setUploadError(errors[0]);toast("Please check the highlighted fields.");return}let name=pn.value.trim(),category=pc.value,description=pd.value.trim(),tags=pt.value.split(",").map(x=>x.trim()).filter(Boolean).slice(0,8),code=px.value;let duplicate=projects.some(p=>p.user&&p.name.toLowerCase()===name.toLowerCase());if(duplicate){setUploadError("You already have a project with this name. Choose another name.");pn.classList.add("invalid");return}let p={id:"u-"+Date.now(),name,category,description,author:profileData.name,tags:tags.length?tags:["community"],likes:0,views:0,date:new Date().toISOString().slice(0,10),file:safeFileName(name),code,user:true};if(vcCloudReady){try{p=await cloudCreateProject(p);p.user=true;p.cloud=true;p.author=profileData.name;projects.unshift(p);toast("Project published to the cloud.")}catch(e){toast("Cloud upload failed — saved locally instead.");projects.unshift(p);saveUser()}}else{projects.unshift(p);saveUser();toast("Project published in this browser.")}uploadForm.reset();setUploadError("");updateUploadUI();addActivity(`Published “${name}”`);openProject(p.id)}
+function updateUploadUI(){updateCounter(pn,pnCount,60);updateCounter(pd,pdCount,180);updateCounter(pt,ptCount,120);updateCounter(px,pxCount,50000);updateUploadPreview()}
+[pn,pd,pt,px].forEach(input=>input.addEventListener("input",()=>{input.classList.remove("invalid");setUploadError("");updateUploadUI()}));pc.addEventListener("change",updateUploadUI);
 
 function renderProfile(){
-
-  document.getElementById("profileGrid").innerHTML=
-    projects.slice(0,3).map(projectCard).join("");
+  if(!permanentUser()){updateProfilePage();return}
+  let mine=projects.filter(p=>p.user), likedProjects=projects.filter(p=>liked.has(p.id));
+  profileName.textContent=profileData.name;profileHandle.textContent=`@${profileData.handle.replace(/^@/,"")} · Creator`;profileBio.textContent=profileData.bio||"Creator profile for VectariaCodes.";profileAvatar.textContent=initials(profileData.name||"J");
+  pp.textContent=mine.length;pl.textContent=fmt(mine.reduce((n,p)=>n+p.likes,0));pv.textContent=fmt(mine.reduce((n,p)=>n+p.views,0));
+  let list=profileTab==="liked"?likedProjects:mine;
+  profileGrid.innerHTML=list.length?list.map(p=>`${card(p)}${p.user?`<div class="project-actions"><button onclick="event.stopPropagation();openProject('${esc(p.id)}')">Open</button><button class="danger" onclick="event.stopPropagation();deleteProject('${esc(p.id)}')">Delete</button></div>`:""}`).join(""):profileTab==="liked"?`<div class="card empty"><b>♡</b><h3>No liked codes yet</h3><p>Like a project and it will appear here.</p></div>`:`<div class="card empty"><b>＋</b><h3>No projects yet</h3><p>Upload your first project.</p></div>`;
 }
-
+function setProfileTab(tab,button){profileTab=tab;document.querySelectorAll(".profile-tab").forEach(x=>x.classList.remove("active"));button.classList.add("active");renderProfile()}
+function toggleProfileEdit(force){let box=document.getElementById("profileEdit"),show=force===undefined?!box.classList.contains("show"):force;box.classList.toggle("show",show);if(show){pfName.value=profileData.name;pfHandle.value=profileData.handle;pfBio.value=profileData.bio;editProfileBtn.textContent="Close"}else editProfileBtn.textContent="Edit"}
+async function saveProfile(e){e.preventDefault();if(!requireLogin("Sign in to edit your profile."))return;profileData={name:pfName.value.trim()||"Jihoon",handle:(pfHandle.value.trim()||"jihoon").replace(/^@/,""),bio:pfBio.value.trim()||"Creator profile for VectariaCodes."};saveProfileData();projects.filter(p=>p.user).forEach(p=>p.author=profileData.name);if(permanentUser()){try{await cloudSaveProfile();await cloudLoadProjects()}catch(e){toast("Cloud profile save failed — kept locally.")}}else saveUser();addActivity("Updated profile");toggleProfileEdit(false);renderProfile();renderAdmin();toast(vcCloudReady?"Profile synced to cloud.":"Profile updated.")}
+async function deleteProject(id){let p=projects.find(x=>x.id===id);if(!p||!p.user)return;if(!confirm(`Delete “${p.name}"?`))return;if(vcCloudReady&&p.cloud){try{await cloudDeleteProject(id)}catch(e){toast("You can only delete projects owned by your account.");return}}projects=projects.filter(x=>x.id!==id);liked.delete(id);localStorage.setItem("vc-liked",JSON.stringify([...liked]));if(!vcCloudReady)saveUser();addActivity(`Deleted “${p.name}”`);renderProfile();renderExplore();renderHome();renderAdmin();toast(vcCloudReady?"Project deleted from cloud.":"Project deleted.")}
 function renderAdmin(){
-
-  document.getElementById("adminTable").innerHTML=
-    projects.map(project=>`
-
-      <tr>
-
-        <td>${escapeHTML(project.name)}</td>
-
-        <td>${escapeHTML(project.author)}</td>
-
-        <td>${escapeHTML(project.category)}</td>
-
-        <td>
-          <span class="status">Published</span>
-        </td>
-
-        <td>
-          <button
-            class="secondary-btn"
-            style="padding:6px 9px;font-size:11px;"
-            onclick="openProject(${project.id})">
-            View
-          </button>
-        </td>
-
-      </tr>
-
-    `).join("");
+  ac.textContent=projects.length;au.textContent=projects.filter(p=>p.user).length;act.textContent=new Set(projects.map(p=>p.category)).size;al.textContent=fmt(projects.reduce((n,p)=>n+p.likes,0));av.textContent=fmt(projects.reduce((n,p)=>n+p.views,0));
+  let q=(adminSearch?.value||"").toLowerCase().trim(),f=adminFilter?.value||"All";
+  let list=projects.filter(p=>{let text=[p.name,p.author,p.category,...p.tags].join(" ").toLowerCase();if(q&&!text.includes(q))return false;if(f==="Mine"&&!p.user)return false;if(f!=="All"&&f!=="Mine"&&p.category!==f)return false;return true});
+  adminBody.innerHTML=list.length?list.map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(p.category)}</td><td>${esc(p.author)}</td><td>${fmt(p.likes)}</td><td>${fmt(p.views)}</td><td>${p.user?"User":"Demo"}</td><td><button onclick="openProject('${esc(p.id)}')">View</button>${p.user?` <button class="danger" onclick="deleteProject('${esc(p.id)}')">Delete</button>`:""}</td></tr>`).join(""):"<tr><td colspan=7><div class=adminempty>No matching projects.</div></td></tr>";
+  let a=activityLog();activityList.innerHTML=a.length?a.slice(0,8).map(x=>`<div class="activity-item"><span>${esc(x.text)}</span><span>${esc(x.date)}</span></div>`).join(""):"<div class=adminempty>No activity yet.</div>";
 }
-
-function toggleMobile(){
-
-  const links=document.querySelector(".nav-links");
-
-  if(links.style.display==="flex"){
-    links.style.display="";
-  }else{
-    links.style.display="flex";
-    links.style.position="absolute";
-    links.style.top="72px";
-    links.style.left="0";
-    links.style.right="0";
-    links.style.padding="12px";
-    links.style.background="rgba(5,7,18,.97)";
-    links.style.flexDirection="column";
-    links.style.borderBottom="1px solid var(--border)";
-  }
-}
-
-function toast(message){
-
-  const el=document.getElementById("toast");
-
-  el.textContent=message;
-  el.classList.add("show");
-
-  clearTimeout(window.toastTimer);
-
-  window.toastTimer=setTimeout(()=>{
-    el.classList.remove("show");
-  },2200);
-}
-
-function escapeHTML(value){
-
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-}
-
-renderFeatured();
-renderExplore();
-renderProfile();
-renderAdmin();
-
+function toast(t){toastEl.textContent=t;toastEl.classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>toastEl.classList.remove("show"),2200)}
+const toastEl=document.getElementById("toast");if(!activityLog().length)addActivity("VectariaCodes workspace initialized");updateUploadUI();updateAuthUI();updateUploadAccess();renderHome();renderExplore();renderProfile();renderAdmin();cloudInit();
 </script>
-
 </body>
 </html>
